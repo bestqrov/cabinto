@@ -100,14 +100,15 @@ export default function Login() {
   }, [errorMessage]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4" dir="ltr">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100 p-4" dir="ltr">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-purple-100 p-8">
 
         {/* Logo centered */}
         <div className="flex flex-col items-center mb-8">
-          <img src={logo} alt="Cabinto" className="w-24 h-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Cabinto</h2>
-          <p className="text-sm text-gray-500 mt-1">Gestion de cabinet médical</p>
+          <img src="/logo.svg" alt="Cabinet Dr. Bahija Lemrhari" className="w-24 h-24 mb-4 drop-shadow-md" />
+          <h2 className="text-xl font-bold text-purple-900 tracking-tight text-center">Dr. BAHIJA LEMRHARI</h2>
+          <p className="text-sm text-purple-600 mt-1 font-medium">Dermatologue & Vénérologue</p>
+          <p className="text-xs text-gray-400 mt-0.5">Médecine Esthétique & Laser</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -158,7 +159,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all font-bold text-sm shadow-lg hover:shadow-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-purple-700 text-white py-3 rounded-xl hover:bg-purple-800 transition-all font-bold text-sm shadow-lg hover:shadow-purple-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Connexion..." : "Se connecter"}
           </button>
@@ -189,7 +190,7 @@ export default function Login() {
         </form>
 
         <p className="text-center text-gray-400 text-[10px] mt-6 uppercase tracking-widest">
-          &copy; 2026 Cabinto — Tous droits réservés
+          &copy; 2026 Cabinet Dr. Bahija Lemrhari — Inezgane
         </p>
       </div>
     </div>

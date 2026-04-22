@@ -47,18 +47,45 @@ export default function Settings() {
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
-    if (userData) {
-      setCurrentUser(JSON.parse(userData));
-    }
+    if (userData) setCurrentUser(JSON.parse(userData));
   }, []);
 
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings/cabinet`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setCabinetData({
+            name: data.name || "",
+            specialite: data.specialite || "",
+            targetLine: data.targetLine || "",
+            email: data.email || "",
+            phone: data.phone || "",
+            website: data.website || "",
+            address: data.address || "",
+            country: data.country || "Maroc",
+            if: data.if || "",
+            ice: data.ice || "",
+            cnss: data.cnss || "",
+          });
+          if (data.logo) setLogoPreview(data.logo);
+        }
+      } catch { /* ignore */ }
+    };
+    if (token) loadSettings();
+  }, [token]);
+
   const [cabinetData, setCabinetData] = useState({
-    name: "Cabinet Dentaire",
+    name: "Cabinet Médical",
+    specialite: "",
     targetLine: "Votre santé, notre priorité",
-    email: "contact@cabinet-medical.ma",
-    phone: "+212 5XX XXX XXX",
+    email: "",
+    phone: "",
     website: "",
-    address: "Casablanca, Maroc",
+    address: "",
     country: "Maroc",
     if: "",
     ice: "",
@@ -149,6 +176,7 @@ export default function Settings() {
     try {
       const formData = new FormData();
       formData.append("name", cabinetData.name);
+      formData.append("specialite", cabinetData.specialite);
       formData.append("targetLine", cabinetData.targetLine);
       formData.append("email", cabinetData.email);
       formData.append("phone", cabinetData.phone);
@@ -164,7 +192,7 @@ export default function Settings() {
       }
 
       // You'll need to create this API endpoint
-      const res = await fetch("${API_URL}/settings/cabinet", {
+      const res = await fetch(`${API_URL}/settings/cabinet`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -201,7 +229,7 @@ export default function Settings() {
       }
 
       // You'll need to create this API endpoint
-      const res = await fetch("${API_URL}/settings/admin", {
+      const res = await fetch(`${API_URL}/settings/admin`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -847,7 +875,22 @@ export default function Settings() {
                           onChange={handleCabinetChange}
                           required
                           className="w-full px-4 py-3 pt-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                          placeholder="Nom du Cabinet"
+                          placeholder="Ex: Cabinet Dr. Bahija Lemrhari"
+                        />
+                      </div>
+
+                      {/* Spécialité */}
+                      <div className="relative">
+                        <label className="absolute -top-2 left-3 bg-purple-600 text-white text-xs px-3 py-1 rounded-full font-semibold z-10">
+                          Spécialité
+                        </label>
+                        <input
+                          type="text"
+                          name="specialite"
+                          value={cabinetData.specialite}
+                          onChange={handleCabinetChange}
+                          className="w-full px-4 py-3 pt-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                          placeholder="Ex: Dermatologie & Vénérologie"
                         />
                       </div>
 

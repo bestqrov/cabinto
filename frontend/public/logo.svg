@@ -1,4 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="16" fill="#0ea5a4"/>
-  <text x="50" y="57" font-family="Arial, Helvetica, sans-serif" font-size="48" fill="white" text-anchor="middle">D</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5b1f6e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b3aa8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="100" fill="url(#shine)"/>
+
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+
+  <!-- Stylized face profile (woman silhouette) -->
+  <g transform="translate(100,100)" fill="rgba(255,255,255,0.9)">
+    <!-- Head -->
+    <ellipse cx="0" cy="-22" rx="18" ry="20" fill="rgba(255,255,255,0.85)"/>
+    <!-- Neck -->
+    <rect x="-7" y="-4" width="14" height="12" rx="4" fill="rgba(255,255,255,0.85)"/>
+    <!-- Shoulders -->
+    <path d="M-30,8 Q-20,6 -7,8 L-7,26 Q-20,30 -32,22 Z" fill="rgba(255,255,255,0.85)"/>
+    <path d="M30,8 Q20,6 7,8 L7,26 Q20,30 32,22 Z" fill="rgba(255,255,255,0.85)"/>
+    <!-- Body -->
+    <path d="M-7,8 L7,8 L10,26 L-10,26 Z" fill="rgba(255,255,255,0.85)"/>
+    <!-- Medical cross on chest -->
+    <rect x="-4" y="11" width="8" height="2.5" rx="1" fill="#5b1f6e"/>
+    <rect x="-1.25" y="8.5" width="2.5" height="8" rx="1" fill="#5b1f6e"/>
+  </g>
+
+  <!-- Dr. initials arc text at top -->
+  <path id="topArc" d="M 30,100 A 70,70 0 0,1 170,100" fill="none"/>
+  <text font-family="Georgia, serif" font-size="11" fill="rgba(255,255,255,0.9)" letter-spacing="3">
+    <textPath href="#topArc" startOffset="12%">DERMATOLOGUE</textPath>
+  </text>
+
+  <!-- Bottom arc text -->
+  <path id="botArc" d="M 28,108 A 72,72 0 0,0 172,108" fill="none"/>
+  <text font-family="Georgia, serif" font-size="10" fill="rgba(255,255,255,0.7)" letter-spacing="2">
+    <textPath href="#botArc" startOffset="10%">VÉNÉROLOGUE · LASER</textPath>
+  </text>
+
+  <!-- Name bottom -->
+  <text x="100" y="172" font-family="Georgia, serif" font-size="10.5" fill="white" text-anchor="middle" letter-spacing="1" font-weight="bold">Dr. B. LEMRHARI</text>
+
+  <!-- Decorative dots -->
+  <circle cx="55" cy="100" r="2.5" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="145" cy="100" r="2.5" fill="rgba(255,255,255,0.4)"/>
 </svg>

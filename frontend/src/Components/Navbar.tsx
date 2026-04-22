@@ -133,16 +133,21 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar */}
-      <div className="flex items-center justify-between bg-blue-600 px-6 py-3 md:px-10">
+      <div className="flex items-center justify-between bg-purple-800 px-6 py-3 md:px-10">
         <Link to="/" className="flex items-center gap-2">
-          <img 
-            className="w-16 h-16 rounded-full object-cover" 
-            src={settings.logo || logo} 
-            alt="logo" 
+          <img
+            className="w-12 h-12 rounded-full object-cover bg-white p-0.5"
+            src={settings.logo || "/logo.svg"}
+            alt="logo"
           />
-          <span className="hidden md:block text-white font-bold text-lg">
-            {settings.name || "Cabinet Médical"}
-          </span>
+          <div className="hidden md:flex flex-col">
+            <span className="text-white font-bold text-sm leading-tight">
+              {settings.name || "Cabinet Médical"}
+            </span>
+            {settings.specialite && (
+              <span className="text-purple-200 text-xs">{settings.specialite}</span>
+            )}
+          </div>
         </Link>
 
         {/* Desktop Menu */}

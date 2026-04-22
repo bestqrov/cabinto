@@ -33,16 +33,17 @@ export async function getCabinetSettings(req: Request, res: Response) {
 
 export async function updateCabinetSettings(req: Request, res: Response) {
   try {
-    const { name, targetLine, email, phone, website, address, country, if: ifValue, ice, cnss } = req.body;
-    
+    const { name, specialite, targetLine, email, phone, website, address, country, if: ifValue, ice, cnss } = req.body;
+
     let settings = await Settings.findOne();
-    
+
     if (!settings) {
       settings = await Settings.create({});
     }
 
     const updatedData: any = {
       name,
+      specialite,
       targetLine,
       email,
       phone,

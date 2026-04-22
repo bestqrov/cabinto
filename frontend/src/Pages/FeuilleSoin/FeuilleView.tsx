@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -18,7 +19,7 @@ import { useSettings } from "../../contexts/SettingsContext";
 interface Acte {
   acteNom: string;
   prix: number;
-  dent?: string;
+  zone?: string;
 }
 
 interface Feuille {
@@ -58,7 +59,7 @@ export default function FeuilleView() {
 
   const fetchFeuille = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/feuilles/${id}`);
+      const res = await fetch(`${API_URL}/feuilles/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -145,7 +146,7 @@ export default function FeuilleView() {
                 )}
                 <div>
                   <h1 className="text-3xl font-bold text-gray-800 mb-2">{settings.name || "Feuille de Soin"}</h1>
-                  <p className="text-gray-600">{settings.address || "Cabinet Dentaire"}</p>
+                  <p className="text-gray-600">{settings.address || "Cabinet Zoneaire"}</p>
                   <p className="text-gray-600">Tél: {settings.phone || "+212 5XX XXX XXX"}</p>
                 </div>
               </div>
@@ -217,15 +218,15 @@ export default function FeuilleView() {
                 <thead className="bg-gradient-to-r from-pink-600 to-rose-600 text-white">
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-semibold">Acte</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold">Dent</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">Zone</th>
                     <th className="px-4 py-3 text-right text-sm font-semibold">Prix (MAD)</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {feuille.actes.map((acte, index) => (
+                  {feuille.procedures.map((acte, index) => (
                     <tr key={index} className="border-b border-gray-200">
-                      <td className="px-4 py-3 text-gray-800">{acte.acteNom}</td>
-                      <td className="px-4 py-3 text-gray-600">{acte.dent || "-"}</td>
+                      <td className="px-4 py-3 text-gray-800">{acte.procedureNom}</td>
+                      <td className="px-4 py-3 text-gray-600">{acte.zone || "-"}</td>
                       <td className="px-4 py-3 text-right font-semibold text-gray-800">{acte.prix.toFixed(2)}</td>
                     </tr>
                   ))}

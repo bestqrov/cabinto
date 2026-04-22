@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -53,7 +54,7 @@ export default function FacturesList() {
 
   const fetchFactures = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/factures");
+      const res = await fetch("${API_URL}/factures");
       const data = await res.json();
 
       if (data.success) {
@@ -74,7 +75,7 @@ export default function FacturesList() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/factures/${id}`, {
+      const res = await fetch(`${API_URL}/factures/${id}`, {
         method: "DELETE",
       });
 
@@ -92,7 +93,7 @@ export default function FacturesList() {
   };
 
   const handleDownloadPDF = (id: string, numeroFacture: string) => {
-    window.open(`http://localhost:5000/api/factures/${id}/pdf`, "_blank");
+    window.open(`${API_URL}/factures/${id}/pdf`, "_blank");
     toast.success(`Téléchargement de ${numeroFacture}`);
   };
 

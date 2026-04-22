@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -81,7 +82,7 @@ export default function InvoicesCreate() {
   // ----- Fetch Patients -----
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -95,7 +96,7 @@ export default function InvoicesCreate() {
   // ----- Fetch Invoices -----
   const fetchInvoices = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/invoice", {
+      const res = await fetch("${API_URL}/invoice", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -151,11 +152,11 @@ export default function InvoicesCreate() {
     }
 
     try {
-      let url = "http://localhost:5000/api/invoice";
+      let url = "${API_URL}/invoice";
       let method = "POST";
 
       if (editingId) {
-        url = `http://localhost:5000/api/invoice/${editingId}`;
+        url = `${API_URL}/invoice/${editingId}`;
         method = "PUT";
       }
 
@@ -229,7 +230,7 @@ export default function InvoicesCreate() {
   const handleDelete = async (id: string) => {
     if (!confirm("هل أنت متأكد من حذف الفاتورة؟")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/invoice/${id}`, {
+      const res = await fetch(`${API_URL}/invoice/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

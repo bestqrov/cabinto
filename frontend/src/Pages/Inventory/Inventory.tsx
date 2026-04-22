@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar";
 import { FaBoxes } from "react-icons/fa";
@@ -10,7 +11,7 @@ export default function Inventory() {
 
   async function fetchInventory() {
     try {
-      const res = await fetch("http://localhost:5000/api/inventory", {
+      const res = await fetch("${API_URL}/inventory", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

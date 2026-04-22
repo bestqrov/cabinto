@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -6,8 +7,8 @@ import { useSettings } from "../../contexts/SettingsContext";
 
 
 interface Prestation {
-  acte: string;
-  dent?: string;
+  procedure: string;
+  zone?: string;
   prixUnitaire: number;
   quantite: number;
   total: number;
@@ -52,7 +53,7 @@ export default function FactureView() {
 
   const fetchFacture = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/factures/${id}`);
+      const res = await fetch(`${API_URL}/factures/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -73,7 +74,7 @@ export default function FactureView() {
   };
 
   const handleDownloadPDF = () => {
-    window.open(`http://localhost:5000/api/factures/${id}/pdf`, "_blank");
+    window.open(`${API_URL}/factures/${id}/pdf`, "_blank");
     toast.success("Téléchargement du PDF...");
   };
 
@@ -146,11 +147,11 @@ export default function FactureView() {
                 )}
                 <div>
                   <h1 className="text-3xl font-bold text-blue-700 mb-2">
-                    {settings.name || "Cabinet Dentaire"}
+                    {settings.name || "Cabinet Zoneaire"}
                   </h1>
                   <div className="text-gray-600 space-y-1">
                     <p className="font-semibold text-blue-600">{settings.adminName || "Dr. Admin"}</p>
-                    <p className="text-sm font-medium">{settings.targetLine || "Chirurgien-Dentiste"}</p>
+                    <p className="text-sm font-medium">{settings.targetLine || "Chirurgien-Zoneiste"}</p>
                     <p className="text-sm">{settings.address || "Casablanca, Maroc"}</p>
                     <p className="text-sm">Tél: {settings.phone || "+212 5XX XXX XXX"}</p>
                     {settings.email && <p className="text-sm">Email: {settings.email}</p>}
@@ -218,7 +219,7 @@ export default function FactureView() {
             <div className="mb-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <div className="w-1 h-6 bg-blue-600 rounded"></div>
-                Prestations Dentaires
+                Prestations Zoneaires
               </h2>
 
               <div className="overflow-x-auto">
@@ -226,7 +227,7 @@ export default function FactureView() {
                   <thead>
                     <tr className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
                       <th className="px-4 py-3 text-left text-sm font-semibold">Acte</th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold">Dent</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold">Zone</th>
                       <th className="px-4 py-3 text-right text-sm font-semibold">
                         Prix Unit.
                       </th>
@@ -243,10 +244,10 @@ export default function FactureView() {
                         }`}
                       >
                         <td className="px-4 py-3 font-semibold text-gray-800">
-                          {prestation.acte}
+                          {prestation.procedure}
                         </td>
                         <td className="px-4 py-3 text-gray-600">
-                          {prestation.dent || "-"}
+                          {prestation.zone || "-"}
                         </td>
                         <td className="px-4 py-3 text-right text-gray-600">
                           {prestation.prixUnitaire.toFixed(2)} DH
@@ -364,7 +365,7 @@ export default function FactureView() {
           {/* Footer */}
           <div className="bg-gray-100 p-6 text-center border-t-2 border-gray-200">
             <p className="text-xs text-gray-600 mb-2">
-              Facture générée automatiquement — {settings.name || "Cabinet Dentaire"}
+              Facture générée automatiquement — {settings.name || "Cabinet Zoneaire"}
             </p>
             {(settings.if || settings.ice || settings.cnss) && (
               <p className="text-xs text-gray-500">

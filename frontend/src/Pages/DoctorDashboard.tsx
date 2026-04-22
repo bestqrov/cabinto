@@ -1,3 +1,4 @@
+import { API_URL } from '../config';
 import React, { useEffect, useState } from "react";
 import DoctorHeader from "../Components/DoctorHeader";
 import DoctorStats from "../Components/DoctorStats";
@@ -19,7 +20,7 @@ export default function DoctorDashboard() {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token");
-      const res = await fetch("http://localhost:5000/api/doctor/dashboard", {
+      const res = await fetch("${API_URL}/doctor/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
@@ -30,7 +31,7 @@ export default function DoctorDashboard() {
       setData(json);
       // fetch notifications for current user
       try {
-        const r2 = await fetch("http://localhost:5000/api/notification", { headers: { Authorization: `Bearer ${token}` } });
+        const r2 = await fetch("${API_URL}/notification", { headers: { Authorization: `Bearer ${token}` } });
         if (r2.ok) {
           const njson = await r2.json();
           setNotifications(njson);
@@ -50,7 +51,7 @@ export default function DoctorDashboard() {
   const markAsRead = async (id: string) => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/api/notification/${id}/read`, { method: "PUT", headers: { Authorization: `Bearer ${token}` } });
+      await fetch(`${API_URL}/notification/${id}/read`, { method: "PUT", headers: { Authorization: `Bearer ${token}` } });
       setNotifications((prev) => prev.filter((n) => n._id !== id));
     } catch (err) {
       console.error(err);

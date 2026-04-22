@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -46,7 +47,7 @@ export default function AppointmentForm() {
 
   const [form, setForm] = useState({
     patient: "",
-    dentiste: "",
+    praticien: "",
     date: "",
     heure: "",
     motif: "",
@@ -65,7 +66,7 @@ export default function AppointmentForm() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient");
+      const res = await fetch("${API_URL}/patient");
       const data = await res.json();
       if (res.ok) {
         setPatients(data);
@@ -77,13 +78,13 @@ export default function AppointmentForm() {
 
   const fetchAppointment = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/appointment/${id}`);
+      const res = await fetch(`${API_URL}/appointment/${id}`);
       const data = await res.json();
 
       if (res.ok) {
         setForm({
           patient: data.patient._id,
-          dentiste: data.dentiste,
+          praticien: data.praticien,
           date: data.date.split('T')[0],
           heure: data.heure,
           motif: data.motif,
@@ -110,8 +111,8 @@ export default function AppointmentForm() {
 
     try {
       const url = id
-        ? `http://localhost:5000/api/appointment/${id}`
-        : "http://localhost:5000/api/appointment";
+        ? `${API_URL}/appointment/${id}`
+        : "${API_URL}/appointment";
 
       const method = id ? "PUT" : "POST";
 
@@ -316,14 +317,14 @@ export default function AppointmentForm() {
                 <div className="group">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                     <FaUserMd className="text-indigo-500" />
-                    Dentiste <span className="text-red-500">*</span>
+                    Praticien <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    name="dentiste"
-                    value={form.dentiste}
+                    name="praticien"
+                    value={form.praticien}
                     onChange={handleChange}
-                    placeholder="Nom du dentiste"
+                    placeholder="Nom du praticien"
                     required
                     className="w-full px-4 py-3 border-2 border-indigo-200 rounded-lg focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500 transition-all"
                   />
@@ -398,9 +399,10 @@ export default function AppointmentForm() {
                     <option value="">Sélectionner le motif</option>
                     <option value="Douleur">😣 Douleur</option>
                     <option value="Contrôle">🔍 Contrôle</option>
-                    <option value="Détartrage">🦷 Détartrage</option>
+                    <option value="Consultation">🩺 Consultation</option>
+                    <option value="Suivi">📋 Suivi</option>
+                    <option value="Urgence">🚨 Urgence</option>
                     <option value="Esthétique">✨ Esthétique</option>
-                    <option value="Orthodontie">🦷 Orthodontie</option>
                     <option value="Autre">📌 Autre</option>
                   </select>
                   <p className="text-xs text-gray-500 mt-1">💡 Raison de la consultation</p>

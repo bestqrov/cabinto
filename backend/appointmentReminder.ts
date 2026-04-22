@@ -15,7 +15,7 @@ export async function checkUpcomingAppointments() {
     },
     status: "قيد الأنتظار",
   })
-    .populate("dentist", "_id name")
+    .populate("praticien", "_id name")
     .populate("patient", "name");
 
   for (const app of appointments) {

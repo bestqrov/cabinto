@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Sidebar from "../../Components/Sidebar";
@@ -25,7 +26,7 @@ export default function MedicalFileCreate() {
   // Récupérer les patients
   async function fetchPatients() {
     try {
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) setPatients(await res.json());
@@ -37,7 +38,7 @@ export default function MedicalFileCreate() {
   // Récupérer tous les fichiers
   async function fetchFiles() {
     try {
-      const res = await fetch("http://localhost:5000/api/medicalFile", {
+      const res = await fetch("${API_URL}/medicalFile", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) setFiles(await res.json());
@@ -63,7 +64,7 @@ export default function MedicalFileCreate() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://localhost:5000/api/medicalFile", {
+      const res = await fetch("${API_URL}/medicalFile", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -88,7 +89,7 @@ export default function MedicalFileCreate() {
   // Supprimer un fichier
   async function handleDelete(id: string) {
     try {
-      const res = await fetch(`http://localhost:5000/api/medicalFile/${id}`, {
+      const res = await fetch(`${API_URL}/medicalFile/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

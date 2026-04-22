@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -22,7 +23,7 @@ export default function Invoices() {
 
   const fetchInvoices = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/invoice", {
+      const res = await fetch("${API_URL}/invoice", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

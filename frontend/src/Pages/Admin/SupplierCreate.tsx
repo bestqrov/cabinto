@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -34,7 +35,7 @@ export default function SupplierCreate() {
 
   const fetchSupplier = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/supplier/${id}`, {
+      const res = await fetch(`${API_URL}/supplier/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -63,11 +64,11 @@ export default function SupplierCreate() {
     setLoading(true);
 
     try {
-      let url = "http://localhost:5000/api/supplier";
+      let url = "${API_URL}/supplier";
       let method = "POST";
 
       if (id) {
-        url = `http://localhost:5000/api/supplier/${id}`;
+        url = `${API_URL}/supplier/${id}`;
         method = "PUT";
       }
 

@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -52,7 +53,7 @@ export default function Patients() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -88,7 +89,7 @@ export default function Patients() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce patient?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/patient/${id}`, {
+      const res = await fetch(`${API_URL}/patient/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

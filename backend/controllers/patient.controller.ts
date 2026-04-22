@@ -8,15 +8,15 @@ export async function createPatient(req: Request, res: Response) {
     const {
       nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
       email, adresse, maladies, allergies, medicaments,
-      antecedentsDentaires, hygiene, tabac, sucre, motif,
-      groupeSanguin, contactUrgence, dentiste,
+      antecedents, hygiene, tabac, sucre, motif,
+      groupeSanguin, contactUrgence,
     } = req.body;
 
     const patient = new Patient({
       nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
       email, adresse, maladies, allergies, medicaments,
-      antecedentsDentaires, hygiene, tabac, sucre, motif,
-      groupeSanguin, contactUrgence, dentiste,
+      antecedents, hygiene, tabac, sucre, motif,
+      groupeSanguin, contactUrgence,
     });
     await patient.save();
     res.status(201).json(patient);
@@ -101,7 +101,7 @@ export async function updatePatient(req: Request, res: Response) {
     const {
       nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
       email, adresse, maladies, allergies, medicaments,
-      antecedentsDentaires, hygiene, tabac, sucre, motif,
+      antecedents, hygiene, tabac, sucre, motif,
       groupeSanguin, contactUrgence,
     } = req.body;
 
@@ -110,7 +110,7 @@ export async function updatePatient(req: Request, res: Response) {
       {
         nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
         email, adresse, maladies, allergies, medicaments,
-        antecedentsDentaires, hygiene, tabac, sucre, motif,
+        antecedents, hygiene, tabac, sucre, motif,
         groupeSanguin, contactUrgence,
       },
       { new: true, runValidators: true }

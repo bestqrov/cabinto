@@ -189,7 +189,7 @@ export default function Dashboard() {
         });
         const personnel = Array.isArray(personnelRes.data) ? personnelRes.data : personnelRes.data?.data || [];
 
-        const doctors = personnel.filter((p: any) => p.poste === "Dentiste");
+        const doctors = personnel.filter((p: any) => p.poste === "Praticien");
         const receptionists = personnel.filter((p: any) => p.poste === "Secrétaire");
 
         const doctorAttendance = doctors.filter((d: any) => d.statut === "Actif" || d.statut === undefined).length;
@@ -280,7 +280,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <img src={settings.logo || logoImg} alt="Cabinet Logo" className="w-14 h-14 rounded-xl shadow-lg object-cover border-2 border-blue-400 bg-white" />
             <div>
-              <h1 className="text-xl font-semibold text-gray-800 dark:text-white">{settings.name || "Cabinet Dentaire"}</h1>
+              <h1 className="text-xl font-semibold text-gray-800 dark:text-white">{settings.name || "Cabinet Médical"}</h1>
               <p className="text-xs text-gray-500 dark:text-gray-400">{settings.address || "Adresse non définie"}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">{settings.phone || "Téléphone non défini"}</p>
             </div>

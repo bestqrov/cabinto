@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -43,7 +44,7 @@ interface Acte {
   code: string;
   nom: string;
   description: string;
-  dent: string;
+  zone: string;
   surface: string;
   prixUnitaire: number;
   quantite: number;
@@ -94,7 +95,7 @@ function FeuilleFormNew() {
     code: "",
     nom: "",
     description: "",
-    dent: "",
+    zone: "",
     surface: "",
     prixUnitaire: 0,
     quantite: 1,
@@ -110,7 +111,7 @@ function FeuilleFormNew() {
 
   const loadCabinetInfo = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/settings/cabinet");
+      const res = await fetch("${API_URL}/settings/cabinet");
       const data = await res.json();
       if (data) {
         setForm(prev => ({
@@ -129,7 +130,7 @@ function FeuilleFormNew() {
   const fetchPatients = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -143,7 +144,7 @@ function FeuilleFormNew() {
 
   const fetchFeuille = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/feuilles/${id}`);
+      const res = await fetch(`${API_URL}/feuilles/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -169,7 +170,7 @@ function FeuilleFormNew() {
           notes: feuille.notes || "",
           statutGlobal: feuille.statut || "Brouillon",
         });
-        setActes(feuille.actes || []);
+        setActes(feuille.procedures || []);
         
         if (feuille.patientId) {
           setSelectedPatient(feuille.patientId);
@@ -208,12 +209,12 @@ function FeuilleFormNew() {
       return;
     }
 
-    setActes([...actes, currentActe]);
+    setActes([...procedures, currentActe]);
     setCurrentActe({
       code: "",
       nom: "",
       description: "",
-      dent: "",
+      zone: "",
       surface: "",
       prixUnitaire: 0,
       quantite: 1,
@@ -305,8 +306,8 @@ function FeuilleFormNew() {
       };
 
       const url = id
-        ? `http://localhost:5000/api/feuilles/${id}`
-        : "http://localhost:5000/api/feuilles";
+        ? `${API_URL}/feuilles/${id}`
+        : "${API_URL}/feuilles";
 
       const method = id ? "PUT" : "POST";
 
@@ -356,8 +357,8 @@ function FeuilleFormNew() {
           <div className="flex items-center justify-between">
             {sidebarOpen && (
               <div className="flex items-center gap-2">
-                <img src={logo} alt="Dental Clinic" className="w-10 h-10 rounded-lg object-cover" />
-                <span className="font-bold text-lg">DentiSsra</span>
+                <img src={logo} alt="Zoneal Clinic" className="w-10 h-10 rounded-lg object-cover" />
+                <span className="font-bold text-lg">ZoneiSsra</span>
               </div>
             )}
             <button
@@ -408,7 +409,7 @@ function FeuilleFormNew() {
                 {id ? "Modifier Feuille de Soin" : "Nouvelle Feuille de Soin"}
               </h1>
               <p className="text-sm text-gray-500">
-                {id ? "Mettre à jour les informations médicales" : "Créer un nouveau document de soins dentaires"}
+                {id ? "Mettre à jour les informations médicales" : "Créer un nouveau document de soins"}
               </p>
             </div>
           </div>
@@ -582,10 +583,10 @@ function FeuilleFormNew() {
                 <div>
                   <input
                     type="text"
-                    name="dent"
-                    value={currentActe.dent}
+                    name="zone"
+                    value={currentActe.zone}
                     onChange={handleActeChange}
-                    placeholder="N° Dent"
+                    placeholder="N° Zone"
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                   />
                 </div>
@@ -646,7 +647,7 @@ function FeuilleFormNew() {
                     <tr>
                       <th className="px-4 py-3 text-left text-sm font-semibold">Code</th>
                       <th className="px-4 py-3 text-left text-sm font-semibold">Acte</th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold">Dent</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold">Zone</th>
                       <th className="px-4 py-3 text-center text-sm font-semibold">Qté</th>
                       <th className="px-4 py-3 text-right text-sm font-semibold">P.U.</th>
                       <th className="px-4 py-3 text-right text-sm font-semibold">Total</th>
@@ -663,7 +664,7 @@ function FeuilleFormNew() {
                             <div className="text-xs text-gray-500">{acte.description}</div>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-gray-600">{acte.dent || "-"}</td>
+                        <td className="px-4 py-3 text-gray-600">{acte.zone || "-"}</td>
                         <td className="px-4 py-3 text-center font-semibold">{acte.quantite}</td>
                         <td className="px-4 py-3 text-right font-semibold text-blue-600">
                           {acte.prixUnitaire.toFixed(2)}

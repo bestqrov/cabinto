@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -26,7 +27,7 @@ interface Appointment {
     telephone: string;
   };
   patientName?: string; // For new patients (first time)
-  dentiste: string;
+  praticien: string;
   date: string;
   heure: string;
   motif: string;
@@ -48,7 +49,7 @@ export default function AppointmentsList() {
 
   const fetchAppointments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/appointment");
+      const res = await fetch("${API_URL}/appointment");
       const data = await res.json();
 
       if (res.ok) {
@@ -102,7 +103,7 @@ export default function AppointmentsList() {
       filtered = filtered.filter(apt => {
         const patientName = apt.patientName || `${apt.patient?.nom || ''} ${apt.patient?.prenom || ''}`;
         return patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          apt.dentiste.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          apt.praticien.toLowerCase().includes(searchTerm.toLowerCase()) ||
           apt.motif.toLowerCase().includes(searchTerm.toLowerCase());
       });
     }
@@ -114,7 +115,7 @@ export default function AppointmentsList() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce rendez-vous?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/appointment/${id}`, {
+      const res = await fetch(`${API_URL}/appointment/${id}`, {
         method: "DELETE",
       });
 
@@ -214,7 +215,7 @@ export default function AppointmentsList() {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                   Gestion des Rendez-vous
                 </h1>
-                <p className="text-sm text-gray-600 mt-1">Planification et suivi des consultations dentaires</p>
+                <p className="text-sm text-gray-600 mt-1">Planification et suivi des consultations médicales</p>
               </div>
             </div>
             <button
@@ -423,7 +424,7 @@ export default function AppointmentsList() {
                                   <span className="font-semibold">{apt.heure}</span>
                                 </div>
                                 <div className="text-sm text-gray-700">
-                                  <span className="font-medium">Dr. {apt.dentiste}</span>
+                                  <span className="font-medium">Dr. {apt.praticien}</span>
                                 </div>
                               </div>
 
@@ -483,7 +484,7 @@ export default function AppointmentsList() {
                         <thead className="bg-gradient-to-r from-purple-100 to-pink-100">
                           <tr>
                             <th className="px-6 py-4 text-left text-sm font-bold text-purple-900">Patient</th>
-                            <th className="px-6 py-4 text-left text-sm font-bold text-purple-900">Dentiste</th>
+                            <th className="px-6 py-4 text-left text-sm font-bold text-purple-900">Praticien</th>
                             <th className="px-6 py-4 text-left text-sm font-bold text-purple-900">Date & Heure</th>
                             <th className="px-6 py-4 text-left text-sm font-bold text-purple-900">Motif</th>
                             <th className="px-6 py-4 text-left text-sm font-bold text-purple-900">Statut</th>
@@ -525,7 +526,7 @@ export default function AppointmentsList() {
                                   </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className="text-gray-700 font-medium">Dr. {apt.dentiste}</span>
+                                  <span className="text-gray-700 font-medium">Dr. {apt.praticien}</span>
                                 </td>
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-2 text-gray-700">

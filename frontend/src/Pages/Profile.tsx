@@ -1,3 +1,4 @@
+import { API_URL } from '../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSettings } from "../contexts/SettingsContext";
@@ -18,7 +19,7 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
+        const res = await fetch("${API_URL}/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -55,7 +56,7 @@ export default function Profile() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/profile", {
+      const res = await fetch("${API_URL}/auth/profile", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -84,7 +85,7 @@ export default function Profile() {
   // =============================
   const updateBio = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/bio", {
+      const res = await fetch("${API_URL}/auth/bio", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

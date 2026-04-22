@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +23,7 @@ export default function Suppliers() {
 
   async function fetchSuppliers() {
     try {
-      const res = await fetch("http://localhost:5000/api/supplier", {
+      const res = await fetch("${API_URL}/supplier", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +48,7 @@ export default function Suppliers() {
     if (!yes) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/supplier/${id}`, {
+      const res = await fetch(`${API_URL}/supplier/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Sidebar from "../../Components/Sidebar";
@@ -28,7 +29,7 @@ export default function InventoryCreate() {
 
   async function fetchInventory() {
     try {
-      const res = await fetch("http://localhost:5000/api/inventory", {
+      const res = await fetch("${API_URL}/inventory", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
         credentials: "include",
@@ -46,7 +47,7 @@ export default function InventoryCreate() {
   }
 
   async function fetchSuppliers() {
-    const res = await fetch("http://localhost:5000/api/supplier", {
+    const res = await fetch("${API_URL}/supplier", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       credentials: "include",
@@ -79,8 +80,8 @@ export default function InventoryCreate() {
     try {
       const res = await fetch(
         editId
-          ? `http://localhost:5000/api/inventory/${editId}`
-          : "http://localhost:5000/api/inventory",
+          ? `${API_URL}/inventory/${editId}`
+          : "${API_URL}/inventory",
         {
           method: editId ? "PUT" : "POST",
           headers: {
@@ -117,7 +118,7 @@ export default function InventoryCreate() {
     if (!confirm("هل تريد حذف هذا العنصر؟")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/inventory/${id}`, {
+      const res = await fetch(`${API_URL}/inventory/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
         credentials: "include",

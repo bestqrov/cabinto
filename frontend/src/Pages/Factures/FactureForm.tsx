@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -33,35 +34,25 @@ interface Patient {
 }
 
 interface Prestation {
-  acte: string;
-  dent: string;
+  procedure: string;
+  zone: string;
   prixUnitaire: number;
   quantite: number;
   total: number;
 }
 
-const ACTES_DENTAIRES = [
+const ACTES_MEDICAUX = [
   "Consultation",
-  "Détartrage",
-  "Extraction simple",
-  "Extraction chirurgicale",
-  "Dévitalisation",
-  "Traitement canalaire",
-  "Couronne céramique",
-  "Couronne métallique",
-  "Bridge",
-  "Implant dentaire",
-  "Prothèse amovible",
-  "Prothèse complète",
-  "Comblement osseux",
-  "Blanchiment dentaire",
-  "Facette dentaire",
-  "Soin carie simple",
-  "Soin carie complexe",
-  "Radiographie panoramique",
-  "Radiographie rétro-alvéolaire",
-  "Détartrage + polissage",
-  "Scellement de sillon",
+  "Consultation spécialisée",
+  "Suivi médical",
+  "Soins infirmiers",
+  "Acte technique",
+  "Analyse / Bilan",
+  "Radiographie",
+  "Échographie",
+  "Injection / Perfusion",
+  "Petite chirurgie",
+  "Rééducation",
   "Autre",
 ];
 
@@ -87,8 +78,8 @@ export default function FactureForm() {
   const [fichierTracabilite, setFichierTracabilite] = useState<File | null>(null);
   const [prestations, setPrestations] = useState<Prestation[]>([]);
   const [currentPrestation, setCurrentPrestation] = useState<Prestation>({
-    acte: "",
-    dent: "",
+    procedure: "",
+    zone: "",
     prixUnitaire: 0,
     quantite: 1,
     total: 0,
@@ -108,7 +99,7 @@ export default function FactureForm() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient");
+      const res = await fetch("${API_URL}/patient");
       const data = await res.json();
       if (res.ok) {
         setPatients(data);
@@ -120,7 +111,7 @@ export default function FactureForm() {
 
   const fetchFacture = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/factures/${id}`);
+      const res = await fetch(`${API_URL}/factures/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -163,8 +154,8 @@ export default function FactureForm() {
   };
 
   const addPrestation = () => {
-    if (!currentPrestation.acte) {
-      toast.error("Veuillez sélectionner un acte");
+    if (!currentPrestation.procedure) {
+      toast.error("Veuillez sélectionner une prestation");
       return;
     }
     if (currentPrestation.prixUnitaire <= 0) {
@@ -174,8 +165,8 @@ export default function FactureForm() {
 
     setPrestations([...prestations, currentPrestation]);
     setCurrentPrestation({
-      acte: "",
-      dent: "",
+      procedure: "",
+      zone: "",
       prixUnitaire: 0,
       quantite: 1,
       total: 0,
@@ -213,8 +204,8 @@ export default function FactureForm() {
 
     try {
       const url = id
-        ? `http://localhost:5000/api/factures/${id}`
-        : "http://localhost:5000/api/factures";
+        ? `${API_URL}/factures/${id}`
+        : "${API_URL}/factures";
 
       const method = id ? "PUT" : "POST";
 
@@ -339,7 +330,7 @@ export default function FactureForm() {
                   {id ? "Modifier Facture" : "Nouvelle Facture"}
                 </h1>
                 <p className="text-sm text-gray-500">
-                  {id ? "Mettre à jour la facture" : "Créer une nouvelle facture dentaire"}
+                  {id ? "Mettre à jour la facture" : "Créer une nouvelle facture"}
                 </p>
               </div>
             </div>
@@ -469,7 +460,7 @@ export default function FactureForm() {
               <div className="bg-white rounded-2xl shadow-xl p-8">
                 <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-blue-500">
                   <FaTooth className="text-2xl text-blue-600" />
-                  <h2 className="text-xl font-bold text-gray-800">Prestations Dentaires</h2>
+                  <h2 className="text-xl font-bold text-gray-800">Prestations Médicales</h2>
                 </div>
 
                 {/* Ajouter une Prestation */}
@@ -478,13 +469,13 @@ export default function FactureForm() {
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div className="md:col-span-2">
                       <select
-                        name="acte"
-                        value={currentPrestation.acte}
+                        name="procedure"
+                        value={currentPrestation.procedure}
                         onChange={handlePrestationChange}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
-                        <option value="">Sélectionner un acte *</option>
-                        {ACTES_DENTAIRES.map((acte, idx) => (
+                        <option value="">Sélectionner une prestation *</option>
+                        {ACTES_MEDICAUX.map((acte, idx) => (
                           <option key={idx} value={acte}>
                             {acte}
                           </option>
@@ -494,8 +485,8 @@ export default function FactureForm() {
                     <div>
                       <input
                         type="text"
-                        name="dent"
-                        value={currentPrestation.dent}
+                        name="zone"
+                        value={currentPrestation.zone}
                         onChange={handlePrestationChange}
                         placeholder="Dent (ex: 16)"
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -558,9 +549,9 @@ export default function FactureForm() {
                         {prestations.map((prestation, index) => (
                           <tr key={index} className="border-b border-gray-200 hover:bg-blue-50">
                             <td className="px-4 py-3 font-semibold text-gray-800">
-                              {prestation.acte}
+                              {prestation.procedure}
                             </td>
-                            <td className="px-4 py-3 text-gray-600">{prestation.dent || "-"}</td>
+                            <td className="px-4 py-3 text-gray-600">{prestation.zone || "-"}</td>
                             <td className="px-4 py-3 text-right text-gray-600">
                               {prestation.prixUnitaire.toFixed(2)} DH
                             </td>

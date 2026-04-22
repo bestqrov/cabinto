@@ -1,3 +1,4 @@
+import { API_URL } from '../config';
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import axios from "axios";
@@ -6,6 +7,7 @@ import fallbackLogo from "../../assits/Logo.png";
 interface SettingsContextType {
   settings: {
     name: string;
+    specialite: string;
     targetLine: string;
     email: string;
     phone: string;
@@ -27,8 +29,9 @@ interface SettingsContextType {
 }
 
 const defaultSettings = {
-  name: "Desntissra",
-  targetLine: "Votre santé dentaire, notre priorité",
+  name: "Cabinto",
+  specialite: "Médecine Générale",
+  targetLine: "Votre santé, notre priorité",
   email: "",
   phone: "",
   website: "",
@@ -65,7 +68,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      const res = await axios.get("http://localhost:5000/api/settings/cabinet", {
+      const res = await axios.get("${API_URL}/settings/cabinet", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -82,7 +85,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // set default document title and favicon
     if (typeof document !== "undefined") {
-      document.title = "Desntissra";
+      document.title = "Cabinto";
       const existing = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null;
       if (existing) existing.href = "/logo.svg";
     }
@@ -96,7 +99,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     if (!settings) return;
     if (typeof document === "undefined") return;
 
-    document.title = settings.name || "Desntissra";
+    document.title = settings.name || "Cabinto";
 
     try {
       const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null;

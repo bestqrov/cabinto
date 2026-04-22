@@ -6,31 +6,19 @@ import Patient from "../models/Patient";
 // Créer un rendez-vous
 export async function createAppointment(req: Request, res: Response) {
   try {
-    const { isNewPatient, patient, ...appointmentData } = req.body;
-    
+    const { isNewPatient, patient, praticien, date, heure, motif, gsm, whatsapp, statut, notes, patientName } = req.body;
+
     let finalAppointment;
-    
     if (isNewPatient && typeof patient === 'string') {
-      // New patient - save name as string
-      finalAppointment = new Appointment({
-        ...appointmentData,
-        patient: undefined, // No patient reference
-        patientName: patient, // Store name as string
-      });
+      finalAppointment = new Appointment({ praticien, date, heure, motif, gsm, whatsapp, statut, notes, patientName: patient });
     } else {
-      // Existing patient - use ObjectId reference
-      finalAppointment = new Appointment({
-        ...appointmentData,
-        patient: patient,
-        patientName: undefined,
-      });
+      finalAppointment = new Appointment({ patient, praticien, date, heure, motif, gsm, whatsapp, statut, notes, patientName });
     }
-    
+
     await finalAppointment.save();
     res.status(201).json(finalAppointment);
   } catch (err: any) {
-    console.error("Erreur création rendez-vous:", err);
-    res.status(400).json({ error: err.message, details: err });
+    res.status(400).json({ error: err.message });
   }
 }
 

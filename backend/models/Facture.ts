@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IPrestation {
-  acte: string;
-  dent?: string;
+  procedure: string;
+  zone?: string;
   prixUnitaire: number;
   quantite: number;
   total: number;
@@ -27,11 +27,11 @@ export interface IFacture extends Document {
 }
 
 const PrestationSchema = new Schema({
-  acte: {
+  procedure: {
     type: String,
     required: true,
   },
-  dent: {
+  zone: {
     type: String,
   },
   prixUnitaire: {

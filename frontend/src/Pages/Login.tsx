@@ -105,9 +105,9 @@ export default function Login() {
 
         {/* Logo centered */}
         <div className="flex flex-col items-center mb-8">
-          <img src={logo} alt="DentiSsra" className="w-24 h-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">DentiSsra</h2>
-          <p className="text-sm text-gray-500 mt-1">Connectez-vous à votre espace</p>
+          <img src={logo} alt="Cabinto" className="w-24 h-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Cabinto</h2>
+          <p className="text-sm text-gray-500 mt-1">Gestion de cabinet médical</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -189,7 +189,7 @@ export default function Login() {
         </form>
 
         <p className="text-center text-gray-400 text-[10px] mt-6 uppercase tracking-widest">
-          &copy; 2026 DentiSsra — Tous droits réservés
+          &copy; 2026 Cabinto — Tous droits réservés
         </p>
       </div>
     </div>

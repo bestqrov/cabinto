@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Sidebar from "../../Components/Sidebar";
@@ -23,7 +24,7 @@ interface Patient {
   phone: string;
 }
 
-interface Dentist {
+interface Praticien {
   _id: string;
   fullname: string;
   role: string;
@@ -32,7 +33,7 @@ interface Dentist {
 interface Appointment {
   _id: string;
   patient: { name: string; phone: string };
-  dentist: { name: string };
+  praticien: { name: string };
   date: string;
   diagnosis: string;
   treatment: string;
@@ -55,14 +56,14 @@ export default function AppointmentCreate() {
   }, []);
 
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [dentists, setDentists] = useState<Dentist[]>([]);
+  const [praticiens, setPraticiens] = useState<Praticien[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     patient: "",
-    dentist: "",
+    praticien: "",
     date: "",
     diagnosis: "",
     treatment: "",
@@ -72,7 +73,7 @@ export default function AppointmentCreate() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -86,10 +87,10 @@ export default function AppointmentCreate() {
     }
   };
 
-  const fetchDentists = async () => {
+  const fetchPraticiens = async () => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/auth/users?role=Dentist",
+        "${API_URL}/auth/users?role=Praticien",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -98,16 +99,16 @@ export default function AppointmentCreate() {
       if (data?.error || data.message) {
         toast(data.error || data.message);
       } else {
-        setDentists(data);
+        setPraticiens(data);
       }
     } catch {
-      toast.error("Erreur lors du chargement des dentistes");
+      toast.error("Erreur lors du chargement des praticienes");
     }
   };
 
   const fetchAppointments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/appointment", {
+      const res = await fetch("${API_URL}/appointment", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -131,7 +132,7 @@ export default function AppointmentCreate() {
     }
 
     fetchPatients();
-    fetchDentists();
+    fetchPraticiens();
     fetchAppointments();
   }, []);
 
@@ -144,11 +145,11 @@ export default function AppointmentCreate() {
     setLoading(true);
 
     try {
-      let url = "http://localhost:5000/api/appointment";
+      let url = "${API_URL}/appointment";
       let method = "POST";
 
       if (editingId) {
-        url = `http://localhost:5000/api/appointment/${editingId}`;
+        url = `${API_URL}/appointment/${editingId}`;
         method = "PUT";
       }
 
@@ -167,7 +168,7 @@ export default function AppointmentCreate() {
 
       setForm({
         patient: "",
-        dentist: "",
+        praticien: "",
         date: "",
         diagnosis: "",
         treatment: "",
@@ -188,7 +189,7 @@ export default function AppointmentCreate() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/appointment/${id}`, {
+      const res = await fetch(`${API_URL}/appointment/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -207,7 +208,7 @@ export default function AppointmentCreate() {
 
     setForm({
       patient: (a as any).patient._id,
-      dentist: (a as any).dentist._id,
+      praticien: (a as any).praticien._id,
       date: a.date.slice(0, 16),
       diagnosis: a.diagnosis,
       treatment: a.treatment,
@@ -252,7 +253,7 @@ export default function AppointmentCreate() {
         onSubmit={handleSubmit}
         className="bg-white shadow-2xl rounded-2xl mb-10 overflow-hidden"
       >
-        {/* Section 1: Informations Patient & Dentiste */}
+        {/* Section 1: Informations Patient & Praticien */}
         <div className="bg-gradient-to-r from-blue-500 to-indigo-500 p-6">
           <div className="flex items-center gap-3 text-white">
             <FaUser className="text-3xl" />
@@ -283,21 +284,21 @@ export default function AppointmentCreate() {
             <p className="text-xs text-gray-500 mt-1">💡 Choisissez le patient pour ce rendez-vous</p>
           </div>
 
-          {/* Dentiste */}
+          {/* Praticien */}
           <div className="group">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
               <FaUserMd className="text-indigo-500" />
-              Dentiste <span className="text-red-500">*</span>
+              Praticien <span className="text-red-500">*</span>
             </label>
             <select
-              name="dentist"
-              value={form.dentist}
+              name="praticien"
+              value={form.praticien}
               onChange={handleChange}
               className="w-full px-4 py-3 border-2 border-indigo-200 rounded-lg focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500 transition-all"
               required
             >
-              <option value="">Sélectionner le dentiste</option>
-              {dentists.map((d) => (
+              <option value="">Sélectionner le praticiene</option>
+              {praticiens.map((d) => (
                 <option key={d._id} value={d._id}>
                   👨‍⚕️ {d.fullname}
                 </option>
@@ -465,7 +466,7 @@ export default function AppointmentCreate() {
             <thead className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
               <tr>
                 <th className="p-4 text-left font-bold">Patient</th>
-                <th className="p-4 text-left font-bold">Dentiste</th>
+                <th className="p-4 text-left font-bold">Praticien</th>
                 <th className="p-4 text-left font-bold">Date & Heure</th>
                 <th className="p-4 text-left font-bold">Diagnostic</th>
                 <th className="p-4 text-left font-bold">Traitement</th>
@@ -489,7 +490,7 @@ export default function AppointmentCreate() {
                   <td className="p-4 text-gray-600">
                     <div className="flex items-center gap-2">
                       <FaUserMd className="text-indigo-500" />
-                      {a.dentist.name}
+                      {a.praticien.name}
                     </div>
                   </td>
                   <td className="p-4 text-gray-600">

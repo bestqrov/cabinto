@@ -7,9 +7,9 @@ export async function createPrescription(req: Request, res: Response) {
     const user = req.user;
     if (!user) return res.status(401).json({ error: "غير مصرح لك" });
 
-    const { patient, dentist, medicines, date } = req.body;
+    const { patient, praticien, medicines, date } = req.body;
 
-    if (!patient || !dentist || !medicines) {
+    if (!patient || !praticien || !medicines) {
       return res.status(400).json({
         message: "معرّف المريض والطبيب وقائمة الأدوية مطلوبة",
       });
@@ -19,13 +19,13 @@ export async function createPrescription(req: Request, res: Response) {
       return res.status(400).json({ message: "معرّف المريض غير صالح" });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(dentist)) {
+    if (!mongoose.Types.ObjectId.isValid(praticien)) {
       return res.status(400).json({ message: "معرّف الطبيب غير صالح" });
     }
 
     const prescription = await Prescription.create({
       patient,
-      dentist,
+      praticien,
       medicines,
       date: date || new Date(),
     });
@@ -44,7 +44,7 @@ export async function getAllPrescriptions(req: Request, res: Response) {
 
     const prescriptions = await Prescription.find()
       .populate("patient", "name phone")
-      .populate("dentist", "name email role")
+      .populate("praticien", "name email role")
       .sort({ createdAt: -1 });
 
     if (!prescriptions || prescriptions.length === 0) {
@@ -68,7 +68,7 @@ export async function getPrescriptionById(req: Request, res: Response) {
 
     const prescription = await Prescription.findById(id)
       .populate("patient", "name phone")
-      .populate("dentist", "name email role");
+      .populate("praticien", "name email role");
 
     if (!prescription) {
       return res.status(404).json({ message: "الوصفة غير موجودة" });

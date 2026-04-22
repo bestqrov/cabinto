@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -56,7 +57,7 @@ export default function SuppliersList() {
   const fetchSuppliers = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/supplier", {
+      const res = await fetch("${API_URL}/supplier", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -92,7 +93,7 @@ export default function SuppliersList() {
       return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/supplier/${id}`, {
+      const res = await fetch(`${API_URL}/supplier/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -204,7 +205,7 @@ export default function SuppliersList() {
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">Gestion des Fournisseurs</h1>
                 <p className="text-sm text-gray-500">
-                  Gérez vos fournisseurs de produits dentaires
+                  Gérez vos fournisseurs de produits médicaux
                 </p>
               </div>
             </div>

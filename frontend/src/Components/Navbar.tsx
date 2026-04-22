@@ -1,3 +1,4 @@
+import { API_URL } from '../config';
 import { Link } from "react-router-dom";
 import logo from "../images/logo.avif";
 import { useEffect, useState, useRef } from "react";
@@ -26,7 +27,7 @@ export default function Navbar() {
       { title: "Fournisseurs", link: "/supplier" },
       { title: "Dossiers M\u00e9dicaux", link: "/feuilles" },
     ],
-    Dentist: [
+    Praticien: [
       { title: "Tableau de bord", link: "/doctor-dashboard" },
       { title: "Patients", link: "/patients" },
       { title: "Rendez-vous", link: "/appointments" },
@@ -56,7 +57,7 @@ export default function Navbar() {
     if (!user) return;
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/notification", {
+      const res = await fetch("${API_URL}/notification", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -75,7 +76,7 @@ export default function Navbar() {
   const markAsRead = async (id: string) => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/api/notification/${id}/read`, {
+      await fetch(`${API_URL}/notification/${id}/read`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -140,7 +141,7 @@ export default function Navbar() {
             alt="logo" 
           />
           <span className="hidden md:block text-white font-bold text-lg">
-            {settings.name || "Cabinet Dentaire"}
+            {settings.name || "Cabinet Médical"}
           </span>
         </Link>
 

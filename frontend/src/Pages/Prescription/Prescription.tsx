@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar";
 import { FaPrescriptionBottle } from "react-icons/fa";
@@ -7,7 +8,7 @@ export default function Prescription() {
   const token = localStorage.getItem("token");
 
   async function fetchData() {
-    const res = await fetch("http://localhost:5000/api/prescription", {
+    const res = await fetch("${API_URL}/prescription", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -50,7 +51,7 @@ export default function Prescription() {
             >
               <div>
                 <p>👤 {p.patient?.name}</p>
-                <p>🦷 {p.dentist?.name}</p>
+                <p>🩺 {p.praticien?.name}</p>
                 <p>📅 {p.date?.slice(0, 10)}</p>
               </div>
 

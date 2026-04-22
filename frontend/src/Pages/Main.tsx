@@ -1,3 +1,4 @@
+import { API_URL } from '../config';
 // ----------------------------
 // Main.tsx
 // ----------------------------
@@ -28,7 +29,7 @@ export default function Main() {
   // ----------------------------
   useEffect(() => {
     (async () => {
-      const res = await fetch("http://localhost:5000/api/auth/me", {
+      const res = await fetch("${API_URL}/auth/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -41,7 +42,7 @@ export default function Main() {
     if (!currentUser) return;
 
     (async () => {
-      const res = await fetch("http://localhost:5000/api/auth/users", {
+      const res = await fetch("${API_URL}/auth/users", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -61,7 +62,7 @@ export default function Main() {
       return;
     }
 
-    const res = await fetch(`http://localhost:5000/api/auth/user/${id}`, {
+    const res = await fetch(`${API_URL}/auth/user/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -77,7 +78,7 @@ export default function Main() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/role/role/${selected._id}`,
+        `${API_URL}/role/role/${selected._id}`,
         {
           method: "PUT",
           headers: {
@@ -110,7 +111,7 @@ export default function Main() {
   const deleteUser = async (id: string) => {
     if (!window.confirm("Êtes-vous sûr de vouloir supprimer l'utilisateur?")) return;
 
-    const res = await fetch(`http://localhost:5000/api/auth/user/${id}`, {
+    const res = await fetch(`${API_URL}/auth/user/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

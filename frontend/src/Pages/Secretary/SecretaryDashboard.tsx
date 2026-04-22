@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Users, FileText, Calendar, Bell, CreditCard, BarChart3, LogOut } from "lucide-react";
@@ -30,8 +31,8 @@ export default function SecretaryDashboard() {
   const fetchStats = async () => {
     try {
       const [aptsRes, invRes] = await Promise.all([
-        fetch("http://localhost:5000/api/appointment"),
-        fetch("http://localhost:5000/api/invoice"),
+        fetch("${API_URL}/appointment"),
+        fetch("${API_URL}/invoice"),
       ]);
 
       const [aptsData, invData] = await Promise.all([aptsRes.json(), invRes.json()]);
@@ -103,7 +104,7 @@ export default function SecretaryDashboard() {
               <img src={settings.logo || logo} alt="Cabinet Logo" className="w-14 h-14 rounded-xl shadow-lg object-cover border-2 border-pink-400 bg-white" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">
-                  {settings.name || "Cabinet Dentaire"}
+                  {settings.name || "Cabinet Médical"}
                 </h1>
                 <p className="text-sm text-gray-500">{settings.address || "Adresse non définie"}</p>
                 <p className="text-sm text-gray-500">{settings.phone || "Téléphone non défini"}</p>

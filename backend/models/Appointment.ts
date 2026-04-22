@@ -9,7 +9,7 @@ const AppointmentSchema = new mongoose.Schema({
   patientName: {
     type: String, // Store new patient name if not in database
   },
-  dentiste: {
+  praticien: {
     type: String,
     required: true,
   },

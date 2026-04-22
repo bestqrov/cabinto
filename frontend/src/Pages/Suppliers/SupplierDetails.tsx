@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -16,7 +17,7 @@ export default function SupplierDetails() {
 
   const fetchSuppliers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/supplier", {
+      const res = await fetch("${API_URL}/supplier", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -38,7 +39,7 @@ export default function SupplierDetails() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/supplier/${id}`, {
+      const res = await fetch(`${API_URL}/supplier/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

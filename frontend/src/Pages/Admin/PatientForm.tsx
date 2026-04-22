@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -58,7 +59,7 @@ export default function PatientForm() {
     maladies: "",
     allergies: "",
     medicaments: "",
-    antecedentsDentaires: "",
+    antecedents: "",
     hygiene: "",
     tabac: "",
     sucre: "",
@@ -75,7 +76,7 @@ export default function PatientForm() {
 
   const fetchPatient = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/patient/${id}`, {
+      const res = await fetch(`${API_URL}/patient/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,7 +98,7 @@ export default function PatientForm() {
           maladies: data.maladies || "",
           allergies: data.allergies || "",
           medicaments: data.medicaments || "",
-          antecedentsDentaires: data.antecedentsDentaires || "",
+          antecedents: data.antecedents || "",
           hygiene: data.hygiene || "",
           tabac: data.tabac || "",
           sucre: data.sucre || "",
@@ -131,8 +132,8 @@ export default function PatientForm() {
 
     try {
       const url = id 
-        ? `http://localhost:5000/api/patient/${id}`
-        : "http://localhost:5000/api/patient";
+        ? `${API_URL}/patient/${id}`
+        : "${API_URL}/patient";
       
       const method = id ? "PUT" : "POST";
 
@@ -457,14 +458,14 @@ export default function PatientForm() {
                     Antécédents Dentaires
                   </label>
                   <textarea
-                    name="antecedentsDentaires"
-                    value={form.antecedentsDentaires}
+                    name="antecedents"
+                    value={form.antecedents}
                     onChange={handleChange}
-                    placeholder="Antécédents dentaires"
+                    placeholder="Antécédents médicaux"
                     rows={3}
                     className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:ring-4 focus:ring-blue-300 focus:border-blue-500 transition-all resize-none"
                   />
-                  <p className="text-xs text-gray-500 mt-1">💡 Traitements dentaires précédents</p>
+                  <p className="text-xs text-gray-500 mt-1">💡 Antécédents médicaux du patient</p>
                 </div>
               </div>
 
@@ -488,12 +489,12 @@ export default function PatientForm() {
                     onChange={handleChange}
                     className="w-full px-4 py-3 border-2 border-cyan-200 rounded-lg focus:ring-4 focus:ring-cyan-300 focus:border-cyan-500 transition-all"
                   >
-                    <option value="">Hygiène dentaire</option>
+                    <option value="">Hygiène générale</option>
                     <option value="Bonne">✅ Bonne</option>
                     <option value="Moyenne">⚠️ Moyenne</option>
                     <option value="Faible">❌ Faible</option>
                   </select>
-                  <p className="text-xs text-gray-500 mt-1">💡 Qualité d'hygiène dentaire</p>
+                  <p className="text-xs text-gray-500 mt-1">💡 Qualité d'hygiène du patient</p>
                 </div>
 
                 {/* Tabac */}
@@ -558,9 +559,9 @@ export default function PatientForm() {
                     <option value="">Sélectionner un motif</option>
                     <option value="Douleur">😣 Douleur</option>
                     <option value="Contrôle">🔍 Contrôle</option>
-                    <option value="Détartrage">🦷 Détartrage</option>
+                    <option value="Détartrage">🩺 Consultation</option>
                     <option value="Esthétique">✨ Esthétique</option>
-                    <option value="Orthodontie">🦷 Orthodontie</option>
+                    <option value="Orthodontie">🩺 Suivi</option>
                     <option value="Autre">📌 Autre</option>
                   </select>
                   <p className="text-xs text-gray-500 mt-1">💡 Raison principale de la consultation</p>

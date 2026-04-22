@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Sidebar from "../../Components/Sidebar";
@@ -15,14 +16,14 @@ export default function PrescriptionCreate() {
     }
   }, []);
   const [patient, setPatient] = useState("");
-  const [dentist, setDentist] = useState("");
+  const [praticien, setPraticien] = useState("");
   const [date, setDate] = useState("");
   const [medicines, setMedicines] = useState<any[]>([
     { name: "", dosage: "", directions: "" },
   ]);
 
   const [patients, setPatients] = useState([]);
-  const [dentists, setDentists] = useState([]);
+  const [praticiens, setPraticiens] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
 
   const [editId, setEditId] = useState<string | null>(null);
@@ -30,23 +31,23 @@ export default function PrescriptionCreate() {
 
   // جلب المرضى + الأطباء
   async function fetchData() {
-    const res1 = await fetch("http://localhost:5000/api/patient", {
+    const res1 = await fetch("${API_URL}/patient", {
       headers: { Authorization: `Bearer ${token}` },
     });
     const res2 = await fetch(
-      "http://localhost:5000/api/auth/users?role=Dentist",
+      "${API_URL}/auth/users?role=Praticien",
       {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
 
     setPatients(await res1.json());
-    setDentists(await res2.json());
+    setPraticiens(await res2.json());
   }
 
   // جلب جميع الوصفات
   async function fetchPrescriptions() {
-    const res = await fetch("http://localhost:5000/api/prescription", {
+    const res = await fetch("${API_URL}/prescription", {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.ok) setPrescriptions(await res.json());
@@ -70,10 +71,10 @@ export default function PrescriptionCreate() {
   async function handleSubmit(e: any) {
     e.preventDefault();
 
-    const body = { patient, dentist, date, medicines };
+    const body = { patient, praticien, date, medicines };
     const url = editId
-      ? `http://localhost:5000/api/prescription/${editId}`
-      : "http://localhost:5000/api/prescription";
+      ? `${API_URL}/prescription/${editId}`
+      : "${API_URL}/prescription";
 
     const method = editId ? "PUT" : "POST";
 
@@ -91,7 +92,7 @@ export default function PrescriptionCreate() {
     toast.success(editId ? "تم التعديل" : "تمت الإضافة");
 
     setPatient("");
-    setDentist("");
+    setPraticien("");
     setDate("");
     setMedicines([{ name: "", dosage: "", directions: "" }]);
     setEditId(null);
@@ -100,7 +101,7 @@ export default function PrescriptionCreate() {
   }
 
   async function handleDelete(id: string) {
-    const res = await fetch(`http://localhost:5000/api/prescription/${id}`, {
+    const res = await fetch(`${API_URL}/prescription/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -114,7 +115,7 @@ export default function PrescriptionCreate() {
   function handleEdit(p: any) {
     setEditId(p._id);
     setPatient(p.patient._id);
-    setDentist(p.dentist._id);
+    setPraticien(p.praticien._id);
     setDate(p.date?.slice(0, 10));
     setMedicines(p.medicines);
   }
@@ -163,11 +164,11 @@ export default function PrescriptionCreate() {
 
       <select
         className="w-full border p-2 rounded"
-        value={dentist}
-        onChange={(e) => setDentist(e.target.value)}
+        value={praticien}
+        onChange={(e) => setPraticien(e.target.value)}
       >
         <option value="">اختر الطبيب</option>
-        {dentists.map((d: any) => (
+        {praticiens.map((d: any) => (
           <option key={d._id} value={d._id}>
             {d.fullname}
           </option>
@@ -247,7 +248,7 @@ export default function PrescriptionCreate() {
         >
           <div className="text-sm sm:text-base">
             <p>👤 المريض: {p.patient?.name}</p>
-            <p>🦷 الطبيب: {p.dentist.fullname}</p>
+            <p>🩺 الطبيب: {p.praticien.fullname}</p>
             <p>📅 التاريخ: {p.date?.slice(0, 10)}</p>
           </div>
 

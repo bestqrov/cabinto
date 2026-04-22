@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../Components/Sidebar";
@@ -11,7 +12,7 @@ export default function MedicalFileDetails() {
   useEffect(() => {
     async function fetchFiles() {
       const res = await fetch(
-        `http://localhost:5000/api/medicalFile/${patientId}`,
+        `${API_URL}/medicalFile/${patientId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (res.ok) setFiles(await res.json());

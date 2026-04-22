@@ -3,8 +3,8 @@ import { Schema, model, Types } from "mongoose";
 const ActeSchema = new Schema(
   {
     date: { type: Date, required: true },
-    acte: { type: String, required: true },
-    dent: { type: String },
+    procedure: { type: String, required: true },
+    zone: { type: String },
     code: { type: String },
     quantite: { type: Number, default: 1 },
     prixUnitaire: { type: Number, required: true },

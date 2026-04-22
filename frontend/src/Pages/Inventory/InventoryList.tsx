@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -57,7 +58,7 @@ const categories = [
   "Produit d'hygiène",
   "Instrumentation",
   "Radiologie",
-  "Orthodontie",
+  "Médical",
   "Prothèse",
   "Endodontie",
   "Autre",
@@ -91,7 +92,7 @@ export default function InventoryList() {
   const fetchInventory = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/inventory", {
+      const res = await fetch("${API_URL}/inventory", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -111,10 +112,10 @@ export default function InventoryList() {
   const fetchStats = async () => {
     try {
       const [lowStockRes, expiredRes] = await Promise.all([
-        fetch("http://localhost:5000/api/inventory/low-stock", {
+        fetch("${API_URL}/inventory/low-stock", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch("http://localhost:5000/api/inventory/expired", {
+        fetch("${API_URL}/inventory/expired", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -157,7 +158,7 @@ export default function InventoryList() {
       return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/inventory/${id}`, {
+      const res = await fetch(`${API_URL}/inventory/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -310,7 +311,7 @@ export default function InventoryList() {
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">Gestion d'Inventaire</h1>
                 <p className="text-sm text-gray-500">
-                  Gérez votre stock de produits dentaires
+                  Gérez votre stock de produits médicaux
                 </p>
               </div>
             </div>

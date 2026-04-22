@@ -69,7 +69,7 @@ export async function sendPaymentReminder(
   dueDate?: string
 ) {
   const message = `
-🏥 *Cabinet Dentaire - Rappel de Paiement*
+🏥 *Cabinet Médical - Rappel de Paiement*
 
 Bonjour ${patientName},
 
@@ -78,7 +78,7 @@ ${dueDate ? `\nDate d'échéance: ${dueDate}` : ""}
 
 Pour toute question, n'hésitez pas à nous contacter.
 
-Merci de votre confiance! 🦷
+Merci de votre confiance!
   `.trim();
 
   return sendWhatsAppMessage({
@@ -97,7 +97,7 @@ export async function sendAppointmentReminder(
   appointmentTime: string
 ) {
   const message = `
-🏥 *Cabinet Dentaire - Rappel de Rendez-vous*
+🏥 *Cabinet Médical - Rappel de Rendez-vous*
 
 Bonjour ${patientName},
 
@@ -108,7 +108,7 @@ Nous vous rappelons votre rendez-vous:
 Merci de confirmer votre présence.
 En cas d'empêchement, merci de nous prévenir 24h à l'avance.
 
-À bientôt! 🦷
+À bientôt!
   `.trim();
 
   return sendWhatsAppMessage({
@@ -127,17 +127,17 @@ export async function sendTreatmentConfirmation(
   cost: number
 ) {
   const message = `
-🏥 *Cabinet Dentaire - Confirmation de Traitement*
+🏥 *Cabinet Médical - Confirmation de Traitement*
 
 Bonjour ${patientName},
 
 Votre traitement a été enregistré avec succès:
-🦷 Traitement: ${treatment}
+🩺 Traitement: ${treatment}
 💰 Coût: ${cost} MAD
 
 Vos documents sont disponibles dans votre dossier médical.
 
-Prenez soin de votre santé bucco-dentaire! 🦷
+Prenez soin de votre santé!
   `.trim();
 
   return sendWhatsAppMessage({

@@ -28,14 +28,12 @@ export async function getDoctorDashboard(req: Request, res: Response) {
     const appointmentsRaw = await Appointment.find({ date: { $gte: start, $lte: end } }).populate("patient");
 
     const appointmentsToday = appointmentsRaw.filter((app: any) => {
-      // If appointment references a patient, ensure that patient belongs to this doctor
       if (app.patient && app.patient.userId) {
         if (String(app.patient.userId) === String(doctor._id)) return true;
       }
-      // Also allow matching by dentiste field (name or id)
-      if (app.dentiste) {
-        if (String(app.dentiste) === String(doctor.fullname)) return true;
-        if (String(app.dentiste) === String(doctor._id)) return true;
+      if (app.praticien) {
+        if (String(app.praticien) === String(doctor.fullname)) return true;
+        if (String(app.praticien) === String(doctor._id)) return true;
       }
       return false;
     });

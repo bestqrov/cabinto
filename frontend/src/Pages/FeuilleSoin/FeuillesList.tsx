@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -65,7 +66,7 @@ export default function FeuillesList() {
 
   const fetchFeuilles = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/feuilles");
+      const res = await fetch("${API_URL}/feuilles");
       const data = await res.json();
 
       if (data.success) {
@@ -85,7 +86,7 @@ export default function FeuillesList() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer cette feuille de soin?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/feuilles/${id}`, {
+      const res = await fetch(`${API_URL}/feuilles/${id}`, {
         method: "DELETE",
       });
 

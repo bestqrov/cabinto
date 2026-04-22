@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../Components/Sidebar";
@@ -9,7 +10,7 @@ export default function PrescriptionDetails() {
   const token = localStorage.getItem("token");
 
   async function fetchData() {
-    const res = await fetch(`http://localhost:5000/api/prescription/${id}`, {
+    const res = await fetch(`${API_URL}/prescription/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -75,7 +76,7 @@ export default function PrescriptionDetails() {
         <h1 className="text-2xl font-semibold mb-4">تفاصيل الوصفة</h1>
 
         <p>👤 المريض: {prescription.patient?.name}</p>
-        <p>🦷 الطبيب: {prescription.dentist?.name}</p>
+        <p>🩺 الطبيب: {prescription.praticien?.name}</p>
         <p>📅 التاريخ: {prescription.date?.slice(0, 10)}</p>
 
         <h2 className="text-xl font-semibold mt-4 mb-2">الأدوية:</h2>

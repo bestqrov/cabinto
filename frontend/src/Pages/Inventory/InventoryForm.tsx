@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -43,7 +44,7 @@ const categories = [
   "Produit d'hygiène",
   "Instrumentation",
   "Radiologie",
-  "Orthodontie",
+  "Médical",
   "Prothèse",
   "Endodontie",
   "Autre",
@@ -80,7 +81,7 @@ export default function InventoryForm() {
 
   const fetchSuppliers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/supplier", {
+      const res = await fetch("${API_URL}/supplier", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -95,7 +96,7 @@ export default function InventoryForm() {
   const fetchInventoryItem = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/inventory/${id}`, {
+      const res = await fetch(`${API_URL}/inventory/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -158,8 +159,8 @@ export default function InventoryForm() {
       setLoading(true);
 
       const url = isEditMode
-        ? `http://localhost:5000/api/inventory/${id}`
-        : "http://localhost:5000/api/inventory";
+        ? `${API_URL}/inventory/${id}`
+        : "${API_URL}/inventory";
 
       const method = isEditMode ? "PUT" : "POST";
 

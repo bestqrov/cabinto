@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -50,7 +51,7 @@ export default function SupplierForm() {
   const fetchSupplier = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/supplier/${id}`, {
+      const res = await fetch(`${API_URL}/supplier/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -92,8 +93,8 @@ export default function SupplierForm() {
       setLoading(true);
 
       const url = isEditMode
-        ? `http://localhost:5000/api/supplier/${id}`
-        : "http://localhost:5000/api/supplier";
+        ? `${API_URL}/supplier/${id}`
+        : "${API_URL}/supplier";
 
       const method = isEditMode ? "PUT" : "POST";
 
@@ -264,7 +265,7 @@ export default function SupplierForm() {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all hover:border-indigo-300"
-                    placeholder="Ex: Cabinet Dentaire Supplies Ltd"
+                    placeholder="Ex: Cabinet Médical Supplies Ltd"
                   />
                 </div>
 
@@ -325,7 +326,7 @@ export default function SupplierForm() {
                     Activités / Produits
                     <span className="ml-auto text-xs text-gray-500 font-normal flex items-center gap-1">
                       <FaInfoCircle className="text-purple-400" />
-                      Ex: Matériel dentaire, Équipements, Produits pharmaceutiques
+                      Ex: Matériel médical, Équipements, Produits pharmaceutiques
                     </span>
                   </label>
                   <textarea
@@ -334,7 +335,7 @@ export default function SupplierForm() {
                     onChange={handleChange}
                     rows={3}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none transition-all hover:border-purple-300"
-                    placeholder="Décrivez les produits ou services fournis (équipement dentaire, consommables, médicaments, etc.)"
+                    placeholder="Décrivez les produits ou services fournis (équipement médical, consommables, médicaments, etc.)"
                   />
                 </div>
               </div>

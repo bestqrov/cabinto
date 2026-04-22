@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Sidebar from "../../Components/Sidebar";
@@ -90,7 +91,7 @@ export default function PersonnelCreate() {
   // ---------------- Fetch Personnel ----------------
   const fetchPersonnel = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/personnel", {
+      const res = await fetch("${API_URL}/personnel", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -111,7 +112,7 @@ export default function PersonnelCreate() {
   // Fetch user accounts from Settings/Personnel
   const fetchUserAccounts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/users", {
+      const res = await fetch("${API_URL}/auth/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -175,11 +176,11 @@ export default function PersonnelCreate() {
     }
 
     try {
-      let url = "http://localhost:5000/api/personnel/create";
+      let url = "${API_URL}/personnel/create";
       let method = "POST";
 
       if (editingId) {
-        url = `http://localhost:5000/api/personnel/${editingId}`;
+        url = `${API_URL}/personnel/${editingId}`;
         method = "PUT";
       }
 
@@ -244,7 +245,7 @@ export default function PersonnelCreate() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/personnel/${id}`, {
+      const res = await fetch(`${API_URL}/personnel/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -529,7 +530,7 @@ export default function PersonnelCreate() {
                 required
               >
                 <option value="">Sélectionnez le poste</option>
-                <option value="Dentiste">🦷 Dentiste</option>
+                <option value="Dentiste">🩺 Médecin</option>
                 <option value="Assistant(e)">👨‍⚕️ Assistant(e)</option>
                 <option value="Secrétaire">📋 Secrétaire</option>
                 <option value="Hygiéniste">🧼 Hygiéniste</option>
@@ -547,12 +548,12 @@ export default function PersonnelCreate() {
               </label>
               <input
                 name="specialite"
-                placeholder="Spécialité (pour dentiste)"
+                placeholder="Spécialité du praticien"
                 value={form.specialite}
                 onChange={handleChange}
                 className="w-full px-4 py-3 border-2 border-teal-200 rounded-lg focus:ring-4 focus:ring-teal-300 focus:border-teal-500 transition-all"
               />
-              <p className="text-xs text-gray-500 mt-1">💡 Ex: Orthodontie, Pédodontie</p>
+              <p className="text-xs text-gray-500 mt-1">💡 Ex: Dermatologie, Cardiologie</p>
             </div>
 
             {/* Date d'embauche */}

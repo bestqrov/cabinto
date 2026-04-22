@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -41,7 +42,7 @@ export default function OrdonnanceView() {
 
   const fetchOrdonnance = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/ordonnances/${id}`);
+      const res = await fetch(`${API_URL}/ordonnances/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -136,13 +137,13 @@ export default function OrdonnanceView() {
                   ) : (
                     <div className="w-14 h-14 bg-gray-200 rounded-lg" />
                   )}
-                  <h1 className="text-3xl font-bold text-gray-800">{settings.name || "Cabinet Dentaire"}</h1>
+                  <h1 className="text-3xl font-bold text-gray-800">{settings.name || "Cabinet Médical"}</h1>
                 </div>
                 <div className="text-gray-600 space-y-1 ml-12">
                   <p className="font-semibold text-rose-700">Dr. {ordonnance.signatureMedecin.replace("Dr. ", "")}</p>
                   <p className="flex items-center gap-2">
                     <FaUserMd className="text-rose-500" />
-                    Chirurgien Dentiste
+                    Chirurgien Praticien
                   </p>
                   <p>{settings.address || "123 Avenue Mohammed V, Casablanca"}</p>
                   <p>Tél: {settings.phone || "+212 522 123 456"}</p>
@@ -243,7 +244,7 @@ export default function OrdonnanceView() {
               <div className="text-center">
                 <div className="border-t-2 border-gray-300 pt-2 mb-1 min-w-[250px]">
                   <p className="font-bold text-gray-800 text-lg">{ordonnance.signatureMedecin}</p>
-                  <p className="text-gray-600 text-sm">Chirurgien Dentiste</p>
+                  <p className="text-gray-600 text-sm">Chirurgien Praticien</p>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">Cachet et Signature</p>
               </div>
@@ -256,7 +257,7 @@ export default function OrdonnanceView() {
               Cette ordonnance est valable pour une durée de 3 mois à compter de la date d'émission
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              {`${settings.name || "Cabinet Dentaire"} - ${settings.address || "123 Avenue Mohammed V, Casablanca"} - Tél: ${settings.phone || "+212 522 123 456"}`}
+              {`${settings.name || "Cabinet Médical"} - ${settings.address || "123 Avenue Mohammed V, Casablanca"} - Tél: ${settings.phone || "+212 522 123 456"}`}
             </p>
           </div>
         </div>

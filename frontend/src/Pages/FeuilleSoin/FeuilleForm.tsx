@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -34,7 +35,7 @@ interface Patient {
 interface Acte {
   acteNom: string;
   prix: number;
-  dent: string;
+  zone: string;
 }
 
 export default function FeuilleForm() {
@@ -59,7 +60,7 @@ export default function FeuilleForm() {
   const [currentActe, setCurrentActe] = useState<Acte>({
     acteNom: "",
     prix: 0,
-    dent: "",
+    zone: "",
   });
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function FeuilleForm() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient");
+      const res = await fetch("${API_URL}/patient");
       const data = await res.json();
       if (res.ok) {
         setPatients(data);
@@ -83,7 +84,7 @@ export default function FeuilleForm() {
 
   const fetchFeuille = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/feuilles/${id}`);
+      const res = await fetch(`${API_URL}/feuilles/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -96,7 +97,7 @@ export default function FeuilleForm() {
           tauxRemboursement: data.data.tauxRemboursement || 0,
           notes: data.data.notes || "",
         });
-        setActes(data.data.actes || []);
+        setActes(data.data.procedures || []);
       } else {
         toast.error("Erreur lors du chargement");
       }
@@ -122,13 +123,13 @@ export default function FeuilleForm() {
   };
 
   const addActe = () => {
-    if (!currentActe.acteNom || currentActe.prix <= 0) {
+    if (!currentActe.procedureNom || currentActe.prix <= 0) {
       toast.error("Veuillez remplir le nom et le prix de l'acte");
       return;
     }
 
-    setActes([...actes, currentActe]);
-    setCurrentActe({ acteNom: "", prix: 0, dent: "" });
+    setActes([...procedures, currentActe]);
+    setCurrentActe({ acteNom: "", prix: 0, zone: "" });
     toast.success("Acte ajouté");
   };
 
@@ -158,8 +159,8 @@ export default function FeuilleForm() {
 
     try {
       const url = id
-        ? `http://localhost:5000/api/feuilles/${id}`
-        : "http://localhost:5000/api/feuilles";
+        ? `${API_URL}/feuilles/${id}`
+        : "${API_URL}/feuilles";
 
       const method = id ? "PUT" : "POST";
 
@@ -213,7 +214,7 @@ export default function FeuilleForm() {
                 ) : (
                   <div className="w-10 h-10 bg-gray-200 rounded-lg" />
                 )}
-                <span className="font-bold text-lg">{settings.name || "Dental Clinic"}</span>
+                <span className="font-bold text-lg">{settings.name || "Zoneal Clinic"}</span>
               </div>
             )}
             <button 
@@ -333,7 +334,7 @@ export default function FeuilleForm() {
                       name="diagnostic"
                       value={form.diagnostic}
                       onChange={handleChange}
-                      placeholder="Ex: Carie dentaire..."
+                      placeholder="Ex: Consultation, Soins..."
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                     />
                   </div>
@@ -355,7 +356,7 @@ export default function FeuilleForm() {
                       <input
                         type="text"
                         name="acteNom"
-                        value={currentActe.acteNom}
+                        value={currentActe.procedureNom}
                         onChange={handleActeChange}
                         placeholder="Nom de l'acte *"
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -375,10 +376,10 @@ export default function FeuilleForm() {
                     <div>
                       <input
                         type="text"
-                        name="dent"
-                        value={currentActe.dent}
+                        name="zone"
+                        value={currentActe.zone}
                         onChange={handleActeChange}
-                        placeholder="Dent (optionnel)"
+                        placeholder="Zone (optionnel)"
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                       />
                     </div>
@@ -401,16 +402,16 @@ export default function FeuilleForm() {
                         <tr>
                           <th className="px-4 py-3 text-left text-sm font-semibold">Acte</th>
                           <th className="px-4 py-3 text-left text-sm font-semibold">Prix (MAD)</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold">Dent</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold">Zone</th>
                           <th className="px-4 py-3 text-center text-sm font-semibold">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {actes.map((acte, index) => (
                           <tr key={index} className="border-b border-gray-200 hover:bg-pink-50">
-                            <td className="px-4 py-3 text-gray-800">{acte.acteNom}</td>
+                            <td className="px-4 py-3 text-gray-800">{acte.procedureNom}</td>
                             <td className="px-4 py-3 font-semibold text-green-600">{acte.prix.toFixed(2)}</td>
-                            <td className="px-4 py-3 text-gray-600">{acte.dent || "-"}</td>
+                            <td className="px-4 py-3 text-gray-600">{acte.zone || "-"}</td>
                             <td className="px-4 py-3 text-center">
                               <button
                                 type="button"

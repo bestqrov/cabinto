@@ -13,7 +13,7 @@ const PatientSchema = new mongoose.Schema({
   maladies: { type: String },
   allergies: { type: String },
   medicaments: { type: String },
-  antecedentsDentaires: { type: String },
+  antecedents: { type: String },
   hygiene: { type: String, enum: ["Bonne", "Moyenne", "Faible"] },
   tabac: { type: String, enum: ["Oui", "Non"] },
   sucre: { type: String, enum: ["Faible", "Modérée", "Élevée"] },

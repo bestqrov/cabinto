@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -57,7 +58,7 @@ export default function OrdonnancesList() {
 
   const fetchOrdonnances = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/ordonnances");
+      const res = await fetch("${API_URL}/ordonnances");
       const data = await res.json();
 
       if (data.success) {
@@ -77,7 +78,7 @@ export default function OrdonnancesList() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer cette ordonnance?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/ordonnances/${id}`, {
+      const res = await fetch(`${API_URL}/ordonnances/${id}`, {
         method: "DELETE",
       });
 

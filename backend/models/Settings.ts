@@ -3,8 +3,9 @@ import mongoose, { Schema } from "mongoose";
 const SettingsSchema = new Schema(
   {
     // Cabinet Settings
-    name: { type: String, default: "Cabinet Dentaire" },
-    targetLine: { type: String, default: "Votre santé dentaire, notre priorité" },
+    name: { type: String, default: "Cabinet Médical" },
+    specialite: { type: String, default: "Médecine Générale" },
+    targetLine: { type: String, default: "Votre santé, notre priorité" },
     email: { type: String, default: "" },
     phone: { type: String, default: "" },
     website: { type: String, default: "" },

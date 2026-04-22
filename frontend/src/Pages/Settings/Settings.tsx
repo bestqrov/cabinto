@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -53,8 +54,8 @@ export default function Settings() {
 
   const [cabinetData, setCabinetData] = useState({
     name: "Cabinet Dentaire",
-    targetLine: "Votre santé dentaire, notre priorité",
-    email: "contact@cabinet-dentaire.ma",
+    targetLine: "Votre santé, notre priorité",
+    email: "contact@cabinet-medical.ma",
     phone: "+212 5XX XXX XXX",
     website: "",
     address: "Casablanca, Maroc",
@@ -163,7 +164,7 @@ export default function Settings() {
       }
 
       // You'll need to create this API endpoint
-      const res = await fetch("http://localhost:5000/api/settings/cabinet", {
+      const res = await fetch("${API_URL}/settings/cabinet", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -200,7 +201,7 @@ export default function Settings() {
       }
 
       // You'll need to create this API endpoint
-      const res = await fetch("http://localhost:5000/api/settings/admin", {
+      const res = await fetch("${API_URL}/settings/admin", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -225,7 +226,7 @@ export default function Settings() {
   const handleBackup = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/backup/create", {
+      const res = await fetch("${API_URL}/backup/create", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -263,7 +264,7 @@ export default function Settings() {
     formData.append("backup", file);
 
     try {
-      const res = await fetch("http://localhost:5000/api/backup/restore", {
+      const res = await fetch("${API_URL}/backup/restore", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -375,7 +376,7 @@ export default function Settings() {
 
     try {
       console.log('Sending personnel data:', personnelData);
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch("${API_URL}/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -427,7 +428,7 @@ export default function Settings() {
 
   const fetchPersonnelList = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/users", {
+      const res = await fetch("${API_URL}/auth/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -447,7 +448,7 @@ export default function Settings() {
 
   const fetchExistingPersonnel = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/personnel", {
+      const res = await fetch("${API_URL}/personnel", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -471,7 +472,7 @@ export default function Settings() {
     setLoading(true);
     try {
       // First update the User permissions
-      const res = await fetch(`http://localhost:5000/api/auth/user/${selectedUserId}`, {
+      const res = await fetch(`${API_URL}/auth/user/${selectedUserId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -536,7 +537,7 @@ export default function Settings() {
           });
 
           if (personnelDoc) {
-            await fetch(`http://localhost:5000/api/personnel/${personnelDoc._id}`, {
+            await fetch(`${API_URL}/personnel/${personnelDoc._id}`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
@@ -569,7 +570,7 @@ export default function Settings() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce personnel ?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/user/${userId}`, {
+      const res = await fetch(`${API_URL}/auth/user/${userId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -614,7 +615,7 @@ export default function Settings() {
     setLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/user/${editingPersonnel._id}`, {
+      const res = await fetch(`${API_URL}/auth/user/${editingPersonnel._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

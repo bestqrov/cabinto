@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -91,7 +92,7 @@ export default function OrdonnanceForm() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient");
+      const res = await fetch("${API_URL}/patient");
       const data = await res.json();
       if (res.ok) {
         setPatients(data);
@@ -103,7 +104,7 @@ export default function OrdonnanceForm() {
 
   const fetchOrdonnance = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/ordonnances/${id}`);
+      const res = await fetch(`${API_URL}/ordonnances/${id}`);
       const data = await res.json();
 
       if (data.success) {
@@ -164,8 +165,8 @@ export default function OrdonnanceForm() {
 
     try {
       const url = id
-        ? `http://localhost:5000/api/ordonnances/${id}`
-        : "http://localhost:5000/api/ordonnances";
+        ? `${API_URL}/ordonnances/${id}`
+        : "${API_URL}/ordonnances";
 
       const method = id ? "PUT" : "POST";
 

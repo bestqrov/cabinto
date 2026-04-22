@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -23,7 +24,7 @@ export default function AppointmentsDetails() {
 
   const fetchAppointment = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/appointment/${id}`, {
+      const res = await fetch(`${API_URL}/appointment/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

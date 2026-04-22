@@ -1,5 +1,6 @@
+import { API_URL } from '../config';
 import { Link } from "react-router-dom";
-import dentist from "../images/dentist.webp";
+import praticien from "../images/praticien.webp";
 import { useEffect, useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
 
@@ -16,7 +17,7 @@ export default function Register() {
     setLoading(true);
     setErrorMessage("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch("${API_URL}/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,14 +58,14 @@ export default function Register() {
       <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-600 to-indigo-700 items-center justify-center p-12 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <img
-            src={dentist}
+            src={praticien}
             alt="Dental Clinic"
             className="object-cover h-full w-full"
           />
         </div>
         <div className="relative z-10 text-white text-center">
-          <h1 className="text-6xl font-bold mb-4">DentiSsra</h1>
-          <p className="text-xl opacity-90">Gestion moderne de cabinet dentaire</p>
+          <h1 className="text-6xl font-bold mb-4">Cabinto</h1>
+          <p className="text-xl opacity-90">Gestion moderne de cabinet médical</p>
         </div>
       </div>
 
@@ -73,8 +74,8 @@ export default function Register() {
         <div className="max-w-md w-full">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
-            <h1 className="text-4xl font-bold text-indigo-700">DentiSsra</h1>
-            <p className="text-gray-600 mt-2">Gestion de cabinet dentaire</p>
+            <h1 className="text-4xl font-bold text-indigo-700">Cabinto</h1>
+            <p className="text-gray-600 mt-2">Gestion de cabinet médical</p>
           </div>
 
           <div className="bg-white p-8 rounded-2xl shadow-xl">
@@ -82,7 +83,7 @@ export default function Register() {
               Créer un compte
             </h2>
             <p className="text-center text-gray-500 mb-8">
-              Rejoignez DentiSsra dès maintenant
+              Rejoignez Cabinto dès maintenant
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -156,7 +157,7 @@ export default function Register() {
 
           {/* Footer */}
           <p className="text-center text-gray-500 text-xs mt-8">
-            © 2025 DentiSsra. Tous droits réservés.
+            © 2025 Cabinto. Tous droits réservés.
           </p>
         </div>
       </div>

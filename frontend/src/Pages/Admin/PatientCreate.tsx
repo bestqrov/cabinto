@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Sidebar from "../../Components/Sidebar";
@@ -40,7 +41,7 @@ interface Patient {
   maladies?: string;
   allergies?: string;
   medicaments?: string;
-  antecedentsDentaires?: string;
+  antecedents?: string;
   hygiene?: string;
   tabac?: string;
   sucre?: string;
@@ -79,7 +80,7 @@ export default function PatientCreate() {
     maladies: "",
     allergies: "",
     medicaments: "",
-    antecedentsDentaires: "",
+    antecedents: "",
     hygiene: "",
     tabac: "",
     sucre: "",
@@ -93,7 +94,7 @@ export default function PatientCreate() {
   // ---------------- Fetch Patients ----------------
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -136,11 +137,11 @@ export default function PatientCreate() {
     }
 
     try {
-      let url = "http://localhost:5000/api/patient";
+      let url = "${API_URL}/patient";
       let method = "POST";
 
       if (editingId) {
-        url = `http://localhost:5000/api/patient/${editingId}`;
+        url = `${API_URL}/patient/${editingId}`;
         method = "PUT";
       }
 
@@ -187,7 +188,7 @@ export default function PatientCreate() {
         maladies: "",
         allergies: "",
         medicaments: "",
-        antecedentsDentaires: "",
+        antecedents: "",
         hygiene: "",
         tabac: "",
         sucre: "",
@@ -210,7 +211,7 @@ export default function PatientCreate() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/patient/${id}`, {
+      const res = await fetch(`${API_URL}/patient/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -242,7 +243,7 @@ export default function PatientCreate() {
       maladies: p.maladies || "",
       allergies: p.allergies || "",
       medicaments: p.medicaments || "",
-      antecedentsDentaires: p.antecedentsDentaires || "",
+      antecedents: p.antecedents || "",
       hygiene: p.hygiene || "",
       tabac: p.tabac || "",
       sucre: p.sucre || "",
@@ -560,20 +561,20 @@ export default function PatientCreate() {
             <p className="text-xs text-gray-500 mt-1">💡 Traitements en cours</p>
           </div>
 
-          {/* Antécédents Dentaires */}
+          {/* Antécédents Médicaux */}
           <div className="group">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-              <FaTooth className="text-blue-500" />
-              Antécédents Dentaires
+              <FaNotesMedical className="text-blue-500" />
+              Antécédents Médicaux
             </label>
             <textarea
-              name="antecedentsDentaires"
-              placeholder="Antécédents dentaires (optionnel)"
-              value={form.antecedentsDentaires}
+              name="antecedents"
+              placeholder="Antécédents médicaux (optionnel)"
+              value={form.antecedents}
               onChange={handleChange}
               className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:ring-4 focus:ring-blue-300 focus:border-blue-500 transition-all h-24"
             />
-            <p className="text-xs text-gray-500 mt-1">💡 Traitements dentaires précédents</p>
+            <p className="text-xs text-gray-500 mt-1">Antécédents médicaux du patient</p>
           </div>
         </div>
 
@@ -589,7 +590,7 @@ export default function PatientCreate() {
           <div className="group">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
               <FaSoap className="text-cyan-500" />
-              Hygiène Bucco-Dentaire
+              Hygiène Générale
             </label>
             <select
               name="hygiene"
@@ -602,7 +603,7 @@ export default function PatientCreate() {
               <option value="Moyenne">⚠️ Moyenne</option>
               <option value="Faible">❌ Faible</option>
             </select>
-            <p className="text-xs text-gray-500 mt-1">💡 Qualité d'hygiène dentaire</p>
+            <p className="text-xs text-gray-500 mt-1">Qualité d'hygiène du patient</p>
           </div>
 
           {/* Tabac */}

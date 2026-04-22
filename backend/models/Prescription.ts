@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 interface IPrescription {
   patient: mongoose.Schema.Types.ObjectId;
-  dentist: mongoose.Schema.Types.ObjectId;
+  praticien: mongoose.Schema.Types.ObjectId;
   medicines: { name: string; dosage: string; directions: string }[];
   date: Date;
 }
@@ -14,7 +14,7 @@ const prescriptionSchema = new mongoose.Schema<IPrescription>(
       ref: "Patient",
       required: true,
     },
-    dentist: {
+    praticien: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useState, useEffect } from "react";
 import { PenTool, FileText, Clock, Send, FileDown, Link2, Bell, Archive, Loader, Trash2, Edit, Plus, X } from "lucide-react";
 import Sidebar from "../../Components/Sidebar";
@@ -73,7 +74,7 @@ export default function FeuilleDeSoinsForm() {
   const fetchFeuilles = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/feuilles", {
+      const res = await fetch("${API_URL}/feuilles", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,7 +96,7 @@ export default function FeuilleDeSoinsForm() {
   const fetchPatients = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/patient", {
+      const res = await fetch("${API_URL}/patient", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -151,8 +152,8 @@ export default function FeuilleDeSoinsForm() {
 
     try {
       const url = editingId 
-        ? `http://localhost:5000/api/feuilles/${editingId}`
-        : "http://localhost:5000/api/feuilles";
+        ? `${API_URL}/feuilles/${editingId}`
+        : "${API_URL}/feuilles";
       
       const method = editingId ? "PUT" : "POST";
       
@@ -187,7 +188,7 @@ export default function FeuilleDeSoinsForm() {
     
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:5000/api/feuilles/${id}`, {
+      const res = await fetch(`${API_URL}/feuilles/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

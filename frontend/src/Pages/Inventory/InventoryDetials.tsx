@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../Components/Sidebar";
@@ -10,7 +11,7 @@ export default function InventoryDetails() {
   const [item, setItem] = useState<any>(null);
 
   async function fetchDetails() {
-    const res = await fetch(`http://localhost:5000/api/inventory/${id}`, {
+    const res = await fetch(`${API_URL}/inventory/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
       credentials: "include",
     });

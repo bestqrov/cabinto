@@ -1,3 +1,4 @@
+import { API_URL } from '../../config';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -7,7 +8,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 interface Appointment {
   _id: string;
   patient: { name: string; phone: string };
-  dentist: { name: string };
+  praticien: { name: string };
   date: string;
   diagnosis: string;
   treatment: string;
@@ -25,7 +26,7 @@ export default function Appointments() {
 
   const fetchAppointments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/appointment", {
+      const res = await fetch("${API_URL}/appointment", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -110,7 +111,7 @@ export default function Appointments() {
                       {a.patient.name}
                     </h2>
 
-                    <p className="text-gray-600">🦷 Dentiste: {a.dentist.name}</p>
+                    <p className="text-gray-600">🩺 Praticien: {a.dentist.name}</p>
                     <p className="text-gray-600">
                       ⏰ {new Date(a.date).toLocaleString("fr-FR")}
                     </p>

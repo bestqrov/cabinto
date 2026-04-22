@@ -9,6 +9,10 @@ const userRouter = e.Router();
 
 userRouter.post("/register", userController.register);
 userRouter.post("/login", userController.login);
+userRouter.post("/logout", (req, res) => {
+  res.clearCookie("token", { httpOnly: true, sameSite: "strict" });
+  res.json({ success: "Déconnexion réussie" });
+});
 userRouter.get("/me", isAuthenticate, userController.me);
 userRouter.put(
   "/profile",

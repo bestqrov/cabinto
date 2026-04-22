@@ -9,15 +9,36 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const validateForm = () => {
+    if (!email.trim()) return "L'adresse email est requise";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return "Format d'email invalide";
+    if (!password) return "Le mot de passe est requis";
+    if (password.length < 6) return "Le mot de passe doit contenir au moins 6 caractères";
+    return null;
+  };
+
+  const redirectByRole = (role: string) => {
+    if (role === "Receptionist") window.location.href = "/secretary-dashboard";
+    else if (role === "Dentist") window.location.href = "/doctor-dashboard";
+    else window.location.href = "/dashboard";
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
     setLoading(true);
     setErrorMessage("");
     try {
       const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
       });
       const data = await res.json();
       if (data?.error) {
@@ -28,13 +49,7 @@ export default function Login() {
         setEmail("");
         setPassword("");
         toast.success(`Bienvenue ${data.user.fullname}`);
-        if (data.user.role === "Receptionist") {
-          window.location.href = "/secretary-dashboard";
-        } else if (data.user.role === "Dentist") {
-          window.location.href = "/doctor-dashboard";
-        } else {
-          window.location.href = "/dashboard";
-        }
+        redirectByRole(data.user.role);
       }
     } catch (error) {
       console.log(error);
@@ -55,6 +70,7 @@ export default function Login() {
     try {
       const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials[role]),
       });
@@ -66,13 +82,7 @@ export default function Login() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success(`Connexion rapide - ${data.user.fullname}`);
-        if (data.user.role === "Receptionist") {
-          window.location.href = "/secretary-dashboard";
-        } else if (data.user.role === "Dentist") {
-          window.location.href = "/doctor-dashboard";
-        } else {
-          window.location.href = "/dashboard";
-        }
+        redirectByRole(data.user.role);
       }
     } catch (error) {
       console.log(error);

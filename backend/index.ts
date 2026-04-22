@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
 import { connecDB } from "./libs/connectDB";
 import userRouter from "./routes/user.route";
 import supplierRouter from "./routes/supplier.route";
@@ -27,19 +29,39 @@ const app = express();
 
 connecDB();
 
-// CORS for development and frontend requests
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { error: "محاولات كثيرة جداً، يرجى الانتظار 15 دقيقة" },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",")
+  : ["http://localhost:5173", "http://localhost:5000"];
+
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 
 // Serve Static Files for Backend Assets if any
 // ...
 
 // API Routes
+app.use("/api/auth/login", authLimiter);
+app.use("/api/auth/register", authLimiter);
 app.use("/api/auth", userRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/prescription", prescriptionRouter);

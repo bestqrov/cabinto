@@ -16,11 +16,14 @@ export async function isAuthenticate(
   next: NextFunction
 ) {
   try {
+    const cookieToken = req.cookies?.token;
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "غير مصرح بك" });
-    }
-    const token = authHeader.split(" ")[1];
+    const headerToken =
+      authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : null;
+
+    const token = cookieToken || headerToken;
 
     if (!token) {
       return res.status(401).json({ error: "غير مصرح بك" });

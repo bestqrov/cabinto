@@ -18,7 +18,17 @@ export async function createPersonnel(req: Request, res: Response) {
       if (count >= 10) return res.status(400).json({ error: 'Limite maximale de 10 médecins atteinte' });
     }
 
-    const personnel = new Personnel(req.body);
+    const {
+      nom, prenom, cin, dateNaissance, sexe, telephone, email,
+      adresse, poste, specialite, dateEmbauche, salaire,
+      horaireTravail, numeroCNSS, numeroCarteProf, photoProfile, notes,
+    } = req.body;
+
+    const personnel = new Personnel({
+      nom, prenom, cin, dateNaissance, sexe, telephone, email,
+      adresse, poste, specialite, dateEmbauche, salaire,
+      horaireTravail, numeroCNSS, numeroCarteProf, photoProfile, notes,
+    });
     await personnel.save();
     res.status(201).json(personnel);
   } catch (err: any) {
@@ -246,7 +256,7 @@ export async function createPersonnelWithUser(req: Request, res: Response) {
 
       await personnel.save();
 
-      return res.status(201).json({ success: "Personnel et compte créés", personnel, credentials: { email, password } });
+      return res.status(201).json({ success: "Personnel et compte créés", personnel });
     } catch (err: any) {
       // rollback created user if personnel creation failed
       await User.findByIdAndDelete(newUser._id);

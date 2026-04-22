@@ -25,20 +25,27 @@ export async function createFeuilleSoin(req: Request, res: Response) {
       });
     }
 
-    const feuilleSoin = new FeuilleSoin(req.body);
+    const {
+      patientId: _pid, actes, diagnostic, traitementEffectue, observations,
+      facturation, signature, envoiPatient, rappelPaiement, archive,
+      versions, exportAssurance,
+    } = req.body;
+
+    const feuilleSoin = new FeuilleSoin({
+      patientId, actes, diagnostic, traitementEffectue, observations,
+      facturation, signature, envoiPatient, rappelPaiement, archive,
+      versions, exportAssurance,
+    });
     await feuilleSoin.save();
 
-    // Send WhatsApp payment reminder if enabled
-    if (req.body.rappelPaiement && patient.whatsapp) {
+    if (rappelPaiement && patient.whatsapp) {
       try {
         await sendPaymentReminder(
           patient.whatsapp,
           `${patient.nom} ${patient.prenom}`,
-          req.body.facturation?.montantTotal || 0
+          facturation?.montantTotal || 0
         );
-        console.log("✅ Payment reminder sent via WhatsApp");
-      } catch (whatsappError) {
-        console.error("⚠️ WhatsApp reminder failed:", whatsappError);
+      } catch {
         // Continue even if WhatsApp fails
       }
     }
@@ -49,10 +56,9 @@ export async function createFeuilleSoin(req: Request, res: Response) {
       message: "Feuille de soin créée avec succès" 
     });
   } catch (err: any) {
-    console.error("Erreur création feuille de soin:", err);
-    res.status(400).json({ 
-      success: false, 
-      message: err.message 
+    res.status(400).json({
+      success: false,
+      message: err.message
     });
   }
 }

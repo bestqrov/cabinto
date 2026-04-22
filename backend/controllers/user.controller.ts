@@ -89,24 +89,19 @@ export async function register(req: Request, res: Response) {
 export async function login(req: Request, res: Response) {
   try {
     const { email, password } = req.body;
-    console.log("Login attempt:", { email, passwordLength: password?.length });
-    
+
     if (!email || !password) {
       return res.status(400).json({ error: "Tous les champs sont requis" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
-      console.log("User not found:", email);
-      return res.status(401).json({ error: "Email incorrect" });
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
-    
-    console.log("User found:", { email: user.email, role: user.role });
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    console.log("Password valid:", isPasswordValid);
-    
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Mot de passe incorrect" });
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
 
     const token = generateToken({

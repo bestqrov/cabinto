@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
 import { connecDB } from "./libs/connectDB";
 import userRouter from "./routes/user.route";
 import supplierRouter from "./routes/supplier.route";
@@ -53,8 +55,10 @@ app.use(
     credentials: true,
   })
 );
+app.use(helmet());
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
+app.use(mongoSanitize());
 
 // Serve Static Files for Backend Assets if any
 // ...

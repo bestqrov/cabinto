@@ -5,13 +5,22 @@ import mongoose from "mongoose";
 // Créer un patient
 export async function createPatient(req: Request, res: Response) {
   try {
-    console.log("Patient creation request body:", req.body);
-    const patient = new Patient(req.body);
+    const {
+      nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
+      email, adresse, maladies, allergies, medicaments,
+      antecedentsDentaires, hygiene, tabac, sucre, motif,
+      groupeSanguin, contactUrgence, dentiste,
+    } = req.body;
+
+    const patient = new Patient({
+      nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
+      email, adresse, maladies, allergies, medicaments,
+      antecedentsDentaires, hygiene, tabac, sucre, motif,
+      groupeSanguin, contactUrgence, dentiste,
+    });
     await patient.save();
     res.status(201).json(patient);
   } catch (err: any) {
-    console.error("Patient creation error details:", err);
-    
     // Handle duplicate key errors (E11000)
     if (err.code === 11000) {
       const field = Object.keys(err.keyPattern)[0];
@@ -89,16 +98,28 @@ export async function updatePatient(req: Request, res: Response) {
       return res.status(400).json({ error: "ID patient invalide" });
     }
 
-    console.log("Updating patient with data:", req.body);
+    const {
+      nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
+      email, adresse, maladies, allergies, medicaments,
+      antecedentsDentaires, hygiene, tabac, sucre, motif,
+      groupeSanguin, contactUrgence,
+    } = req.body;
 
-    const patient = await Patient.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
-    
+    const patient = await Patient.findByIdAndUpdate(
+      id,
+      {
+        nom, prenom, dateNaissance, cin, sexe, telephone, whatsapp,
+        email, adresse, maladies, allergies, medicaments,
+        antecedentsDentaires, hygiene, tabac, sucre, motif,
+        groupeSanguin, contactUrgence,
+      },
+      { new: true, runValidators: true }
+    );
+
     if (!patient) {
       return res.status(404).json({ error: "Patient non trouvé" });
     }
 
-    console.log("Patient updated successfully:", patient);
-    
     res.json(patient);
   } catch (err: any) {
     // Handle duplicate key errors (E11000)

@@ -24,7 +24,8 @@ export async function createOrdonnance(req: Request, res: Response) {
       });
     }
 
-    const ordonnance = new Ordonnance(req.body);
+    const { dateOrdonnance, medicaments, instructionGenerale, signatureMedecin } = req.body;
+    const ordonnance = new Ordonnance({ patientId, dateOrdonnance, medicaments, instructionGenerale, signatureMedecin });
     await ordonnance.save();
 
     res.status(201).json({ 
